@@ -1,29 +1,30 @@
 import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class projectsDto {
+export class appsDto {
   @IsString()
-  @IsNotEmpty()
   @MaxLength(36)
   @ApiProperty({
-    description: 'icono',
+    description: 'id tipo aplicacion',
     maximum: 36,
   })
-  image: string;
+  type_id: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(250)
   @ApiProperty({
-    description: 'nombre es',
+    description: 'url',
     maximum: 250,
   })
-  name_es: string;
+  url: string;
 
   @IsString()
-  @MaxLength(250)
+  @IsNotEmpty()
+  @MaxLength(45)
   @ApiProperty({
     description: 'nombre en',
-    maximum: 250,
+    maximum: 45,
   })
   name_en: string;
 
@@ -31,17 +32,17 @@ export class projectsDto {
   @IsNotEmpty()
   @MaxLength(250)
   @ApiProperty({
-    description: 'descripción español',
-    maximum: 250,
+    description: 'nombre es',
+    maximum: 45,
   })
-  description_es: string;
+  name_es: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(250)
+  @MaxLength(45)
   @ApiProperty({
-    description: 'descripción en ingles',
-    maximum: 250,
+    description: 'icon',
+    maximum: 45,
   })
-  description_en: string;
+  icono: string;
 }

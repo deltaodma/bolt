@@ -38,15 +38,15 @@ export class Banner {
   @Column()
   content_en: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', select: false })
   @CreateDateColumn()
   created_at: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', select: false })
   @CreateDateColumn()
   updated_at: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', select: false })
   @CreateDateColumn()
   deleted_at: Date;
 

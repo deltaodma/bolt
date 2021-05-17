@@ -43,7 +43,23 @@ export class BannersService {
   }
 
   async paginate(options: any): Promise<Pagination<Banner>> {
+    //console.log('in bannerservice ', options.search);
     const queryBuilder = this._bannersRepository.createQueryBuilder('c');
+    queryBuilder.select([
+      'c.id',
+      'c.image',
+      'c.button_es',
+      'c.button_en',
+      'c.pdf',
+      'c.content_es',
+      'c.content_en',
+      'c.deleted_at',
+    ]);
+    if (options.search != '') {
+      queryBuilder.where(
+        `(c.content_es like '%${options.search}%' OR c.content_en like '%${options.search}%')`,
+      );
+    }
     //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
     return paginate<Banner>(queryBuilder, options);

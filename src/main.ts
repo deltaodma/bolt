@@ -13,7 +13,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('bolt')
     .setDescription('bolt API description')
-    .addTag('BANNERS')
+    //.addTag('BANNERS')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
@@ -24,6 +24,6 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(3000);
+  await app.listen(AppModule.port);
 }
 bootstrap();

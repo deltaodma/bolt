@@ -3,6 +3,7 @@ import {
   Get,
   Param,
   Query,
+  Req,
   Post,
   Body,
   Put,
@@ -10,52 +11,102 @@ import {
   HttpCode,
   UsePipes,
   ValidationPipe,
+  BadRequestException,
+  NotFoundException,
+  Request,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 import { get } from 'http';
 import { getManager } from 'typeorm';
 import { bannersDto } from './../dto/banners.dto';
 
 import { BannersService } from './../services/banners.service';
 //import { LanguageService } from './../../global/services/language.service';
-
-export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/v1/banners';
-
+import { ApiTags } from '@nestjs/swagger';
+import * as dotenv from 'dotenv';
+import { renameImage } from 'src/global/helpers/images.helper';
+const globalVars = dotenv.config();
+//export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/v1/banners';
+@ApiTags('Banners')
 @Controller('banners')
 export class BannersController {
   constructor(
     private _bannersService: BannersService, //private _LanguageService: LanguageService,
   ) {}
 
-  @Get()
-  getAll() {
-    return this._bannersService.findAll();
-    //return this._bannersService.prueba();
-  }
-
-  @Get('paginar')
-  paginar(@Query('page') page: number = 1, @Query('limit') limit: number = 2) {
+  //@Get('none')
+  //none() {
+  //return this._bannersService.findAll();
+  //return this._bannersService.prueba();
+  //return this.paginar();
+  //}
+  /*
+  @Get('filter')
+  //getAll(@Query('page') page: number = 1, @Query('limit') limit: number = 2) {
+  getAll(@Query() { page, limit }) {
     limit = limit > 100 ? 100 : limit;
 
     return this._bannersService.paginate({
       limit: Number(limit),
       page: Number(page),
-      route: BLOG_ENTRIES_URL,
+      route: process.env.API_URL + 'banners',
+    });
+  }*/
+
+  @Get()
+  @HttpCode(200)
+  findAll(@Req() request: Request) {
+    //return `This action returns all products. Limit ${limit}, offset: ${offset}`;
+    console.log(request['query']['search']);
+    let { page, limit, search } = request['query'];
+    search == undefined ? (search = '') : request['query']['search'];
+    limit == undefined ? (limit = 10) : request['query']['limit'];
+    page == undefined ? (page = 1) : request['query']['page'];
+
+    return this._bannersService.paginate({
+      limit: Number(limit),
+      page: Number(page),
+      search: String(search),
+      route:
+        search != ''
+          ? process.env.API_URL + 'banners?search=' + search
+          : process.env.API_URL + 'banners',
     });
   }
 
-  @Get('filter')
-  findAll(@Query() paginationQuery: any) {
-    const { limit, offset } = paginationQuery;
-    return `This action returns all products. Limit ${limit}, offset: ${offset}`;
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination:
+          './uploads/' +
+          new Date().getFullYear() +
+          '/' +
+          new Date().getMonth() +
+          '/' +
+          new Date().getDate(),
+        filename: renameImage,
+      }),
+    }),
+  )
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return file;
   }
 
   @Get(':id')
   getOne(@Param('id') id: string) {
+    if (!id) {
+      throw new BadRequestException('id must be sent');
+    }
     return this._bannersService.findOne(id);
   }
 
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
+  @HttpCode(204)
   create(@Body() _bannersDto: bannersDto) {
     return this._bannersService.create(_bannersDto);
   }
