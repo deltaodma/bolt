@@ -10,6 +10,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { Configuration } from './config/configuration.keys';
 import { DatabaseModule } from './database/database.module';
+import { TypesModule } from './modules/types/types.module';
 @Module({
   imports: [
     /*TypeOrmModule.forRoot({
@@ -29,6 +30,7 @@ import { DatabaseModule } from './database/database.module';
     AppsModule,
     ConfigModule,
     DatabaseModule,
+    TypesModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],
