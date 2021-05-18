@@ -11,6 +11,10 @@ import { ConfigService } from './config/config.service';
 import { Configuration } from './config/configuration.keys';
 import { DatabaseModule } from './database/database.module';
 import { TypesModule } from './modules/types/types.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { UserrolesModule } from './modules/userroles/userroles.module';
 @Module({
   imports: [
     /*TypeOrmModule.forRoot({
@@ -31,6 +35,10 @@ import { TypesModule } from './modules/types/types.module';
     ConfigModule,
     DatabaseModule,
     TypesModule,
+    AuthModule,
+    UserModule,
+    RolesModule,
+    UserrolesModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

@@ -45,15 +45,7 @@ export class AppsService {
   async paginate(options: any): Promise<Pagination<App>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._appsRepository.createQueryBuilder('c');
-    queryBuilder.select([
-      'c.id',
-      'c.type_id',
-      'c.url',
-      'c.name_en',
-      'c.description_es',
-      'c.description_en',
-      'c.deleted_at',
-    ]);
+    queryBuilder.select(['c.id', 'c.type_id', 'c.deleted_at']);
     if (options.search != '') {
       queryBuilder.where(
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
