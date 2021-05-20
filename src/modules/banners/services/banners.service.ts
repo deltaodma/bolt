@@ -48,11 +48,15 @@ export class BannersService {
     queryBuilder.select([
       'c.id',
       'c.image',
+      'c.name_en',
+      'c.name_es',
       'c.button_es',
       'c.button_en',
       'c.pdf',
+      'c.url_redirect',
       'c.content_es',
       'c.content_en',
+      'c.status',
       'c.deleted_at',
     ]);
     if (options.search != '') {

@@ -26,8 +26,10 @@ export class UserService {
   //}
 
   async findAll(options: any): Promise<Pagination<User>> {
+    console.log('entra');
     return paginate<any>(this._userRepository, options, {
       relations: ['roles'],
+      where: `(name like '%${options.search}%' OR last_name like '%${options.search}%')`,
     });
   }
 

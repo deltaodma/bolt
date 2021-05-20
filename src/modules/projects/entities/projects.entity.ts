@@ -32,6 +32,9 @@ export class Project {
   @Column()
   description_en: string;
 
+  @Column()
+  status: number;
+
   @Column({ type: 'timestamp' })
   @CreateDateColumn()
   created_at: Date;

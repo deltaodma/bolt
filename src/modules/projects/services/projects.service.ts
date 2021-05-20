@@ -52,6 +52,7 @@ export class ProjectsService {
       'c.name_en',
       'c.description_es',
       'c.description_en',
+      'c.status',
       'c.deleted_at',
     ]);
     if (options.search != '') {

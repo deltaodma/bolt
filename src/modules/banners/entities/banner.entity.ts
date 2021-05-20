@@ -21,6 +21,12 @@ export class Banner {
   image: string;
 
   @Column()
+  name_es: string;
+
+  @Column()
+  name_en: string;
+
+  @Column()
   url_redirect: string;
 
   @Column()
@@ -37,6 +43,9 @@ export class Banner {
 
   @Column()
   content_en: string;
+
+  @Column()
+  status: number;
 
   @Column({ type: 'timestamp', select: false })
   @CreateDateColumn()

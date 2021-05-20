@@ -16,6 +16,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  Redirect,
 } from '@nestjs/common';
 import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -27,8 +28,11 @@ import { UserService } from './../services/user.service';
 //import { LanguageService } from './../../global/services/language.service';
 
 import { ApiTags } from '@nestjs/swagger';
+import { ConfigSaml } from './config';
 import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
+const passport = require('passport');
+const SamlStrategy = require('passport-saml').Strategy;
 
 @ApiTags('User')
 @Controller('user')
@@ -37,8 +41,9 @@ export class UserController {
     private _userService: UserService, //private _LanguageService: LanguageService,
   ) {}
 
-  @Get('test')
-  otro(@Req() request: Request) {
+  @Get()
+  @HttpCode(200)
+  getAll(@Req() request: Request) {
     console.log(request['query']['search']);
     let { page, limit, search } = request['query'];
     search == undefined ? (search = '') : request['query']['search'];
@@ -56,10 +61,9 @@ export class UserController {
     return this._userService.findAll(options);
   }
 
-  @Get()
+  /*@Get()
   @HttpCode(200)
   findAll(@Req() request: Request) {
-    //return `This action returns all products. Limit ${limit}, offset: ${offset}`;
     console.log(request['query']['search']);
     let { page, limit, search } = request['query'];
     search == undefined ? (search = '') : request['query']['search'];
@@ -74,6 +78,47 @@ export class UserController {
         search != ''
           ? process.env.API_URL + 'user?search=' + search
           : process.env.API_URL + 'user',
+    });
+  } */
+
+  @Get('saml')
+  getSaml() {
+    const config = new ConfigSaml();
+    console.log(config);
+
+    passport.serializeUser(function (user, done) {
+      done(null, user);
+    });
+
+    passport.deserializeUser(function (user, done) {
+      done(null, user);
+    });
+
+    passport.use(
+      new SamlStrategy(config.passport['saml'], function (profile, done) {
+        return done(null, {
+          id: profile.nameID,
+          email:
+            profile[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+            ],
+          displayName:
+            profile['http://schemas.microsoft.com/identity/claims/displayname'],
+          firstName:
+            profile[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'
+            ],
+          lastName:
+            profile[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'
+            ],
+        });
+      }),
+    );
+    //@Redirect('https://nestjs.com', 301);
+    passport.authenticate(config.passport['strategy'], {
+      successRedirect: '/',
+      failureRedirect: '/login',
     });
   }
 
