@@ -11,7 +11,7 @@ export const databaseProviders = [
     async useFactory(config: ConfigService) {
       return {
         type: 'mysql' as 'mysql',
-        host: config.get(Configuration.HOST),
+        host: config.get(Configuration.DB_HOST),
         username: config.get(Configuration.DB_USER),
         port: parseInt(config.get(Configuration.DB_PORT)),
         database: config.get(Configuration.DB_NAME),
