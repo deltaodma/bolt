@@ -81,7 +81,7 @@ export class UserController {
     });
   } */
 
-  @Get('saml')
+  @Post('saml')
   getSaml() {
     const config = new ConfigSaml();
     console.log(config);

@@ -19,13 +19,29 @@ export class bannersDto {
   })
   url_redirect: string;
 
-  @IsString()
-  @MaxLength(45)
   @ApiProperty({
     description: 'pdf',
     maximum: 45,
   })
   pdf: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  @ApiProperty({
+    description: 'botton en español',
+    maximum: 100,
+  })
+  name_es: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  @ApiProperty({
+    description: 'boton en ingles',
+    maximum: 100,
+  })
+  name_en: string;
 
   @IsString()
   @IsNotEmpty()

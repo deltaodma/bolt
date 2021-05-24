@@ -27,7 +27,7 @@ export class BannersService {
   findOne(id: string) {
     const product = this._bannersRepository.findOne(id);
     if (!product) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`Banner #${id} not found`);
     }
     return product;
   }
@@ -35,7 +35,7 @@ export class BannersService {
   create(data: bannersDto) {
     const newItem = this._bannersRepository.create(data);
     return this._bannersRepository.save(newItem);
-    return data;
+    //return data;
   }
 
   async paginateAll(page: number, limit: number): Promise<Pagination<Banner>> {

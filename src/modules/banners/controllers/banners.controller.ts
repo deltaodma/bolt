@@ -24,7 +24,7 @@ import { getManager } from 'typeorm';
 import { bannersDto } from './../dto/banners.dto';
 
 import { BannersService } from './../services/banners.service';
-//import { LanguageService } from './../../global/services/language.service';
+import { ArchivoService } from './../../../global/services/archivos.service';
 import { ApiTags } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';
@@ -34,7 +34,8 @@ const globalVars = dotenv.config();
 @Controller('banners')
 export class BannersController {
   constructor(
-    private _bannersService: BannersService, //private _LanguageService: LanguageService,
+    private _bannersService: BannersService,
+    private _ArchivoService: ArchivoService,
   ) {}
 
   //@Get('none')
@@ -79,7 +80,7 @@ export class BannersController {
 
   @Post('upload')
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('archivo', {
       storage: diskStorage({
         destination:
           './uploads/' +
@@ -93,7 +94,12 @@ export class BannersController {
     }),
   )
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return file;
+    const archivo = {
+      name: file.filename,
+      relative_path: file.destination.split('./')[1],
+      full_path: file.destination.split('./')[1] + '/' + file.filename,
+    };
+    return this._ArchivoService.create(archivo);
   }
 
   @Get(':id')
@@ -106,7 +112,7 @@ export class BannersController {
 
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
-  @HttpCode(204)
+  //@HttpCode(204)
   create(@Body() _bannersDto: bannersDto) {
     return this._bannersService.create(_bannersDto);
   }
