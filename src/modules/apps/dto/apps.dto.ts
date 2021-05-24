@@ -21,28 +21,27 @@ export class appsDto {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(45)
-  @ApiProperty({
-    description: 'nombre en',
-    maximum: 45,
-  })
-  name_en: string;
-
-  @IsString()
-  @IsNotEmpty()
   @MaxLength(250)
   @ApiProperty({
     description: 'nombre es',
-    maximum: 45,
+    maximum: 250,
   })
   name_es: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(45)
+  @MaxLength(250)
   @ApiProperty({
-    description: 'icon',
-    maximum: 45,
+    description: 'nombre en',
+    maximum: 250,
   })
-  icono: string;
+  name_en: string;
+
+  @IsString()
+  @MaxLength(36)
+  @ApiProperty({
+    description: 'submenu id',
+    maximum: 36,
+  })
+  submenu_id: string;
 }

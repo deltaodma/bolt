@@ -15,6 +15,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { UserrolesModule } from './modules/userroles/userroles.module';
+import { SubmenusModule } from './modules/submenus/submenus.module';
+import { ProjectrolesModule } from './modules/projectroles/projectroles.module';
+import { FavoritesModule } from './modules/favorites/favorites.module';
 @Module({
   imports: [
     /*TypeOrmModule.forRoot({
@@ -39,6 +42,9 @@ import { UserrolesModule } from './modules/userroles/userroles.module';
     UserModule,
     RolesModule,
     UserrolesModule,
+    SubmenusModule,
+    ProjectrolesModule,
+    FavoritesModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

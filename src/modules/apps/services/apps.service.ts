@@ -27,7 +27,7 @@ export class AppsService {
   findOne(id: string) {
     const app = this._appsRepository.findOne(id);
     if (!app) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`App #${id} not found`);
     }
     return app;
   }
@@ -45,12 +45,21 @@ export class AppsService {
   async paginate(options: any): Promise<Pagination<App>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._appsRepository.createQueryBuilder('c');
-    queryBuilder.select(['c.id', 'c.type_id', 'c.deleted_at']);
+    queryBuilder.select([
+      'c.id',
+      'c.type_id',
+      'c.name_es',
+      'c.name_en',
+      'submenu_id',
+      'c.deleted_at',
+    ]);
     if (options.search != '') {
       queryBuilder.where(
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
       );
     }
+    queryBuilder.relation('submenu');
+    queryBuilder.relation('type');
     //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
     return paginate<App>(queryBuilder, options);

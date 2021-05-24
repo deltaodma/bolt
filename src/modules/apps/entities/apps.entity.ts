@@ -7,10 +7,12 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  OneToOne,
   CreateDateColumn,
 } from 'typeorm';
 
-//import { Language } from '../../../global/entities/languaje.entity';
+import { Submenu } from './../../submenus/entities/submenu.entity';
+import { Type } from './../../types/entities/types.entity';
 
 @Entity('apps')
 export class App {
@@ -21,10 +23,16 @@ export class App {
   type_id: string;
 
   @Column()
+  url: string;
+
+  @Column()
   name_es: string;
 
   @Column()
   name_en: string;
+
+  @Column()
+  submenu_id: string;
 
   @Column({ type: 'timestamp' })
   @CreateDateColumn()
@@ -37,4 +45,12 @@ export class App {
   @Column({ type: 'timestamp' })
   @CreateDateColumn()
   deleted_at: Date;
+
+  @OneToOne(() => Type)
+  @JoinColumn({ name: 'type_id' })
+  type: Type;
+
+  @OneToOne(() => Submenu)
+  @JoinColumn({ name: 'submenu_id' })
+  submenu: Submenu;
 }
