@@ -74,6 +74,11 @@ export class BannersService {
     this._bannersRepository.merge(item, changes);
     return this._bannersRepository.save(item);
   }
+  async updateStatus(id: string) {
+    let item = await this._bannersRepository.findOne(id);
+    item.status = item.status == 0 ? 1 : 0;
+    return this._bannersRepository.save(item);
+  }
 
   async remove(id: string) {
     await this._bannersRepository.delete(id);

@@ -116,6 +116,11 @@ export class BannersController {
     return this._bannersService.update(id, _bannersDto);
   }
 
+  @Put('changestatus/:id')
+  updateStatus(@Param('id') id: string) {
+    return this._bannersService.updateStatus(id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this._bannersService.remove(id);
