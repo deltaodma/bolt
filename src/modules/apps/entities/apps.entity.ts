@@ -9,6 +9,8 @@ import {
   OneToMany,
   OneToOne,
   CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 import { Submenu } from './../../submenus/entities/submenu.entity';
@@ -34,16 +36,16 @@ export class App {
   @Column()
   submenu_id: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', select: false })
   @CreateDateColumn()
   created_at: Date;
 
-  @Column({ type: 'timestamp' })
-  @CreateDateColumn()
+  @Column({ type: 'timestamp', select: false })
+  @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({ type: 'timestamp' })
-  @CreateDateColumn()
+  @Column({ type: 'timestamp', select: false })
+  @DeleteDateColumn()
   deleted_at: Date;
 
   @OneToOne(() => Type)

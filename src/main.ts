@@ -23,7 +23,7 @@ async function bootstrap() {
       showRequestDuration: true,
     },
   });
-
+  app.enableCors();
   await app.listen(AppModule.port);
 }
 bootstrap();

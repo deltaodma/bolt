@@ -47,7 +47,7 @@ export class TypesService {
     const queryBuilder = this._typesRepository.createQueryBuilder('c');
     queryBuilder.select([
       'c.id',
-      'c.icono',
+      'c.icon',
       'c.name_es',
       'c.name_en',
       'c.deleted_at',

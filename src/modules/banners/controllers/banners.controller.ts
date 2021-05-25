@@ -58,7 +58,7 @@ export class BannersController {
   }*/
 
   @Get()
-  @HttpCode(200)
+  //@HttpCode(200)
   findAll(@Req() request: Request) {
     //return `This action returns all products. Limit ${limit}, offset: ${offset}`;
     console.log(request['query']['search']);

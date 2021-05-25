@@ -36,11 +36,16 @@ export class AppsController {
     private _appsService: AppsService, //private _LanguageService: LanguageService,
   ) {}
 
+  @Get('test')
+  test() {
+    return this._appsService.test();
+  }
+
   @Get()
-  @HttpCode(200)
+  //  @HttpCode(200)
   findAll(@Req() request: Request) {
     //return `This action returns all products. Limit ${limit}, offset: ${offset}`;
-    console.log(request['query']['search']);
+    //console.log(request['query']['search']);
     let { page, limit, search } = request['query'];
     search == undefined ? (search = '') : request['query']['search'];
     limit == undefined ? (limit = 10) : request['query']['limit'];

@@ -8,6 +8,8 @@ import {
   JoinTable,
   OneToMany,
   CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 import { Language } from './../../../global/entities/languaje.entity';
@@ -52,11 +54,11 @@ export class Banner {
   created_at: Date;
 
   @Column({ type: 'timestamp', select: false })
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updated_at: Date;
 
   @Column({ type: 'timestamp', select: false })
-  @CreateDateColumn()
+  @DeleteDateColumn()
   deleted_at: Date;
 
   @OneToMany(() => Language, (language) => language.banners)

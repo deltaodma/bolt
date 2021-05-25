@@ -24,7 +24,7 @@ export class Type {
   name_es: string;
 
   @Column()
-  icono: string;
+  icon: string;
 
   @Column({ type: 'timestamp' })
   @CreateDateColumn()

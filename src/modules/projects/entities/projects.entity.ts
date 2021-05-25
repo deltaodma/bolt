@@ -8,9 +8,11 @@ import {
   JoinTable,
   OneToMany,
   CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
-//import { Language } from '../../../global/entities/languaje.entity';
+import { Submenu } from './../../submenus/entities/submenu.entity';
 
 @Entity('projects')
 export class Project {
@@ -39,11 +41,14 @@ export class Project {
   @CreateDateColumn()
   created_at: Date;
 
-  @Column({ type: 'timestamp' })
-  @CreateDateColumn()
+  @Column({ type: 'timestamp', select: false })
+  @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({ type: 'timestamp' })
-  @CreateDateColumn()
+  @Column({ type: 'timestamp', select: false })
+  @DeleteDateColumn()
   deleted_at: Date;
+
+  @OneToMany((type) => Submenu, (submenu) => submenu.project)
+  submenus: Submenu[];
 }

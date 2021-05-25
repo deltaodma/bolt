@@ -26,5 +26,5 @@ export class typesDto {
     description: 'icono',
     maximum: 45,
   })
-  icono: string;
+  icon: string;
 }

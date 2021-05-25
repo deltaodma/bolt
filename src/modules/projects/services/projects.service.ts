@@ -1,3 +1,4 @@
+import { Submenu } from './../../submenus/entities/submenu.entity';
 import { projectsDto } from '../dto/projects.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,6 +18,7 @@ import {
 export class ProjectsService {
   constructor(
     @InjectRepository(Project) private _projectsRepository: Repository<Project>,
+    @InjectRepository(Submenu) private _submenuRepository: Repository<Project>,
   ) {}
 
   async findAll() {
@@ -30,6 +32,15 @@ export class ProjectsService {
       throw new NotFoundException(`Product #${id} not found`);
     }
     return project;
+  }
+
+  async submenus(project_id) {
+    let submenus = this._submenuRepository.find();
+    return submenus;
+  }
+
+  async menu() {
+    return this._projectsRepository.find({ relations: ['submenus'] });
   }
 
   create(data: projectsDto) {

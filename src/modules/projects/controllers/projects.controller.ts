@@ -59,6 +59,11 @@ export class ProjectsController {
     });
   }
 
+  @Get('menu')
+  getMenu() {
+    return this._projectsService.menu();
+  }
+
   @Get(':id')
   getOne(@Param('id') id: string) {
     return this._projectsService.findOne(id);

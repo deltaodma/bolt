@@ -19,6 +19,10 @@ export class AppsService {
     @InjectRepository(App) private _appsRepository: Repository<App>,
   ) {}
 
+  async test() {
+    return this._appsRepository.find({ relations: ['type', 'submenu'] });
+  }
+
   async findAll() {
     //return this._appsRepository.find();
     return this._appsRepository.find();
@@ -50,7 +54,7 @@ export class AppsService {
       'c.type_id',
       'c.name_es',
       'c.name_en',
-      'submenu_id',
+      'c.submenu_id',
       'c.deleted_at',
     ]);
     if (options.search != '') {
@@ -58,7 +62,7 @@ export class AppsService {
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
       );
     }
-    queryBuilder.relation('submenu');
+    //queryBuilder.relation('submenus');
     queryBuilder.relation('type');
     //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
