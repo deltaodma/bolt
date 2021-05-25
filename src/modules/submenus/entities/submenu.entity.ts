@@ -15,6 +15,7 @@ import {
 
 import { User } from './../../user/entities/user.entity';
 import { Project } from './../../projects/entities/projects.entity';
+import { App } from './../../apps/entities/apps.entity';
 
 @Entity('submenus')
 export class Submenu {
@@ -61,4 +62,7 @@ export class Submenu {
   @ManyToOne((type) => Project, (role) => role.submenus, { primary: true })
   @JoinColumn({ name: 'project_id' })
   project: Submenu;
+
+  @OneToMany((type) => App, (apps) => apps.submenu)
+  apps: App[];
 }

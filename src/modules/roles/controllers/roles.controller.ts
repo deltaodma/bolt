@@ -75,6 +75,11 @@ export class RolesController {
     return this._rolesService.update(id, _rolesDto);
   }
 
+  @Put('changestatus/:id')
+  updateStatus(@Param('id') id: string) {
+    return this._rolesService.updateStatus(id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this._rolesService.remove(id);

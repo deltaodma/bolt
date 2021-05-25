@@ -60,6 +60,7 @@ export class UserService {
       'c.last_name',
       'c.country',
       'c.employee_code',
+      'c.status',
       'c.deleted_at',
     ]);
 
@@ -77,6 +78,12 @@ export class UserService {
   async update(id: string, changes: any) {
     const item = await this._userRepository.findOne(id);
     this._userRepository.merge(item, changes);
+    return this._userRepository.save(item);
+  }
+
+  async updateStatus(id: string) {
+    let item = await this._userRepository.findOne(id);
+    item.status = item.status == 0 ? 1 : 0;
     return this._userRepository.save(item);
   }
 

@@ -37,9 +37,12 @@ const SamlStrategy = require('passport-saml').Strategy;
 @ApiTags('User')
 @Controller('user')
 export class UserController {
+  public config: any;
   constructor(
     private _userService: UserService, //private _LanguageService: LanguageService,
-  ) {}
+  ) {
+    this.config = new ConfigSaml();
+  }
 
   @Get()
   @HttpCode(200)
@@ -80,8 +83,15 @@ export class UserController {
           : process.env.API_URL + 'user',
     });
   } */
+  @Get('other')
+  otro() {
+    passport.authenticate(this.config.passport.strategy, {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    });
+  }
 
-  @Post('saml')
+  @Get('saml')
   getSaml() {
     const config = new ConfigSaml();
     console.log(config);
@@ -136,6 +146,11 @@ export class UserController {
   @Put(':id')
   update(@Param('id') id: string, @Body() _userDto: userDto) {
     return this._userService.update(id, _userDto);
+  }
+
+  @Put('changestatus/:id')
+  updateStatus(@Param('id') id: string) {
+    return this._userService.updateStatus(id);
   }
 
   @Delete(':id')

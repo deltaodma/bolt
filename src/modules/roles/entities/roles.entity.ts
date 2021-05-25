@@ -27,6 +27,9 @@ export class Role {
   @Column()
   name_en: string;
 
+  @Column()
+  status: number;
+
   @CreateDateColumn({ name: 'created_at' })
   created_at?: Date;
 

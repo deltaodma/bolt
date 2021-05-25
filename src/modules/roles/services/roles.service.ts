@@ -45,7 +45,13 @@ export class RolesService {
   async paginate(options: any): Promise<Pagination<Role>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._projectsRepository.createQueryBuilder('c');
-    queryBuilder.select(['c.id', 'c.name_es', 'c.name_en', 'c.deleted_at']);
+    queryBuilder.select([
+      'c.id',
+      'c.name_es',
+      'c.name_en',
+      'c.status',
+      'c.deleted_at',
+    ]);
     if (options.search != '') {
       queryBuilder.where(
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
@@ -59,6 +65,12 @@ export class RolesService {
   async update(id: string, changes: any) {
     const item = await this._projectsRepository.findOne(id);
     this._projectsRepository.merge(item, changes);
+    return this._projectsRepository.save(item);
+  }
+
+  async updateStatus(id: string) {
+    let item = await this._projectsRepository.findOne(id);
+    item.status = item.status == 0 ? 1 : 0;
     return this._projectsRepository.save(item);
   }
 

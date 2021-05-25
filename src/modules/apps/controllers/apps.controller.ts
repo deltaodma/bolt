@@ -36,9 +36,9 @@ export class AppsController {
     private _appsService: AppsService, //private _LanguageService: LanguageService,
   ) {}
 
-  @Get('test')
+  @Get('assoc')
   test() {
-    return this._appsService.test();
+    return this._appsService.appAsociadas();
   }
 
   @Get()
@@ -76,6 +76,11 @@ export class AppsController {
   @Put(':id')
   update(@Param('id') id: string, @Body() _projectsDto: appsDto) {
     return this._appsService.update(id, _projectsDto);
+  }
+
+  @Put('changestatus/:id')
+  updateStatus(@Param('id') id: string) {
+    return this._appsService.updateStatus(id);
   }
 
   @Delete(':id')

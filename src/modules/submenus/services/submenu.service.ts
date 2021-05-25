@@ -55,6 +55,7 @@ export class SubmenuService {
       'c.project_id',
       'c.created_by',
       'c.updated_by',
+      'c.status',
     ]);
 
     /*if (options.search != '') {
@@ -72,6 +73,12 @@ export class SubmenuService {
   async update(id: string, changes: any) {
     const item = await this._submenuRepository.findOne(id);
     this._submenuRepository.merge(item, changes);
+    return this._submenuRepository.save(item);
+  }
+
+  async updateStatus(id: string) {
+    let item = await this._submenuRepository.findOne(id);
+    item.status = item.status == 0 ? 1 : 0;
     return this._submenuRepository.save(item);
   }
 

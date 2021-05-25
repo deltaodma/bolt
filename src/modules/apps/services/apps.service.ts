@@ -19,7 +19,7 @@ export class AppsService {
     @InjectRepository(App) private _appsRepository: Repository<App>,
   ) {}
 
-  async test() {
+  async appAsociadas() {
     return this._appsRepository.find({ relations: ['type', 'submenu'] });
   }
 
@@ -72,6 +72,12 @@ export class AppsService {
   async update(id: string, changes: any) {
     const item = await this._appsRepository.findOne(id);
     this._appsRepository.merge(item, changes);
+    return this._appsRepository.save(item);
+  }
+
+  async updateStatus(id: string) {
+    let item = await this._appsRepository.findOne(id);
+    item.status = item.status == 0 ? 1 : 0;
     return this._appsRepository.save(item);
   }
 

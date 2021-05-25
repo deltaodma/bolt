@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class projectsDto {
@@ -9,7 +9,7 @@ export class projectsDto {
     description: 'icono',
     maximum: 36,
   })
-  image: string;
+  icon: string;
 
   @IsString()
   @MaxLength(250)
@@ -44,4 +44,11 @@ export class projectsDto {
     maximum: 250,
   })
   description_en: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'status',
+  })
+  status: number;
 }

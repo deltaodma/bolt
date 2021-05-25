@@ -36,8 +36,11 @@ export class App {
   @Column()
   submenu_id: string;
 
-  @Column({ type: 'timestamp', select: false })
-  @CreateDateColumn()
+  @Column()
+  status: number;
+
+  //@Column({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
   @Column({ type: 'timestamp', select: false })
@@ -53,6 +56,10 @@ export class App {
   type: Type;
 
   @OneToOne(() => Submenu)
+  @JoinColumn({ name: 'submenu_id' })
+  xax: Submenu;
+
+  @ManyToOne((type) => Submenu, (role) => role.apps, { primary: true })
   @JoinColumn({ name: 'submenu_id' })
   submenu: Submenu;
 }

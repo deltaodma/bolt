@@ -33,6 +33,9 @@ export class User {
   @Column()
   employee_code: string;
 
+  @Column()
+  status: number;
+
   //@Column({ type: 'timestamp' })
   @CreateDateColumn({ name: 'created_at' })
   created_at?: Date;

@@ -39,7 +39,7 @@ export class ProjectsController {
   ) {}
 
   @Get()
-  @HttpCode(200)
+  //@HttpCode(200)
   findAll(@Req() request: Request) {
     //return `This action returns all products. Limit ${limit}, offset: ${offset}`;
     console.log(request['query']['search']);
@@ -78,6 +78,11 @@ export class ProjectsController {
   @Put(':id')
   update(@Param('id') id: string, @Body() _projectsDto: projectsDto) {
     return this._projectsService.update(id, _projectsDto);
+  }
+
+  @Put('changestatus/:id')
+  updateStatus(@Param('id') id: string) {
+    return this._projectsService.updateStatus(id);
   }
 
   @Delete(':id')

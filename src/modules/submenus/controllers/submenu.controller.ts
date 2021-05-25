@@ -95,6 +95,11 @@ export class SubmenuController {
     return this._submenuService.update(id, _submenuDto);
   }
 
+  @Put('changestatus/:id')
+  updateStatus(@Param('id') id: string) {
+    return this._submenuService.updateStatus(id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this._submenuService.remove(id);

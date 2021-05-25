@@ -40,7 +40,9 @@ export class ProjectsService {
   }
 
   async menu() {
-    return this._projectsRepository.find({ relations: ['submenus'] });
+    return this._projectsRepository.find({
+      relations: ['submenus', 'submenus.apps'],
+    });
   }
 
   create(data: projectsDto) {
@@ -58,7 +60,7 @@ export class ProjectsService {
     const queryBuilder = this._projectsRepository.createQueryBuilder('c');
     queryBuilder.select([
       'c.id',
-      'c.icono',
+      'c.icon',
       'c.name_es',
       'c.name_en',
       'c.description_es',
@@ -79,6 +81,12 @@ export class ProjectsService {
   async update(id: string, changes: any) {
     const item = await this._projectsRepository.findOne(id);
     this._projectsRepository.merge(item, changes);
+    return this._projectsRepository.save(item);
+  }
+
+  async updateStatus(id: string) {
+    let item = await this._projectsRepository.findOne(id);
+    item.status = item.status == 0 ? 1 : 0;
     return this._projectsRepository.save(item);
   }
 

@@ -20,7 +20,7 @@ export class Project {
   id: string;
 
   @Column()
-  icono: string;
+  icon: string;
 
   @Column()
   name_es: string;

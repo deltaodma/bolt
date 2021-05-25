@@ -61,7 +61,7 @@ export class BannersService {
     ]);
     if (options.search != '') {
       queryBuilder.where(
-        `(c.content_es like '%${options.search}%' OR c.content_en like '%${options.search}%')`,
+        `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%' or c.content_es like '%${options.search}%' OR c.content_en like '%${options.search}%')`,
       );
     }
     //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
