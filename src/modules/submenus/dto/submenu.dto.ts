@@ -13,12 +13,39 @@ export class submenuDto {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(36)
+  @MaxLength(100)
   @ApiProperty({
-    description: 'created by',
-    maximum: 36,
+    description: 'nombre es',
+    maximum: 100,
   })
-  created_by: string;
+  name_es: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  @ApiProperty({
+    description: 'nombre en',
+    maximum: 100,
+  })
+  name_en: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(250)
+  @ApiProperty({
+    description: 'descripción español',
+    maximum: 250,
+  })
+  description_es: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(250)
+  @ApiProperty({
+    description: 'descripción en ingles',
+    maximum: 250,
+  })
+  description_en: string;
 
   @IsString()
   @IsNotEmpty()
@@ -27,7 +54,13 @@ export class submenuDto {
     description: 'created by',
     maximum: 36,
   })
-  updated_by: string;
+  created_by: string;
+
+  @ApiProperty({
+    description: 'updated by',
+    maximum: 36,
+  })
+  updated_by?: string;
 
   @IsNumber()
   @IsNotEmpty()

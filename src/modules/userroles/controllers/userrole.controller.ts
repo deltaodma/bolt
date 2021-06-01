@@ -26,13 +26,14 @@ import { userRoleDto } from './../dto/userrole.dto';
 import { UserRoleService } from './../services/userrole.service';
 //import { LanguageService } from './../../global/services/language.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
 
-@ApiTags('User')
-@Controller('user')
-export class UserController {
+@ApiTags('UserRoles')
+@Controller('user-role')
+@ApiBearerAuth('JWT')
+export class UserRoleController {
   constructor(
     private _userService: UserRoleService, //private _LanguageService: LanguageService,
   ) {}
@@ -47,7 +48,7 @@ export class UserController {
     limit == undefined ? (limit = 10) : request['query']['limit'];
     page == undefined ? (page = 1) : request['query']['page'];
 
-    return this._userService.paginate({
+    return this._userService.findAll({
       limit: Number(limit),
       page: Number(page),
       search: String(search),

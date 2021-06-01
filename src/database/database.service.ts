@@ -3,6 +3,8 @@ import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 import { ConnectionOptions } from 'typeorm';
 import { Configuration } from './../config/configuration.keys';
+import * as dotenv from 'dotenv';
+const globalVars = dotenv.config();
 
 export const databaseProviders = [
   TypeOrmModule.forRootAsync({
@@ -11,11 +13,11 @@ export const databaseProviders = [
     async useFactory(config: ConfigService) {
       return {
         type: 'mysql' as 'mysql',
-        host: config.get(Configuration.DB_HOST),
-        username: config.get(Configuration.DB_USER),
-        port: parseInt(config.get(Configuration.DB_PORT)),
-        database: config.get(Configuration.DB_NAME),
-        password: config.get(Configuration.DB_PASSWORD),
+        host: 'localhost',
+        username: 'root',
+        port: 3306,
+        database: 'bolt',
+        password: '',
         //entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         entities: ['dist/**/*.entity{.ts,.js}'],
         //migrations: [__dirname + '/migrations/*{.ts,.js}'],

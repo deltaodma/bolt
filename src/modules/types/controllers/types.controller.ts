@@ -16,6 +16,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -26,12 +27,15 @@ import { typesDto } from './../dto/types.dto';
 import { TypesService } from './../services/types.service';
 //import { LanguageService } from './../../global/services/language.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from './../../auth/jwt-auth.guard';
 import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
 
 @ApiTags('Types')
+@UseGuards(JwtAuthGuard)
 @Controller('types')
+@ApiBearerAuth('JWT')
 export class TypesController {
   constructor(
     private _typesService: TypesService, //private _LanguageService: LanguageService,

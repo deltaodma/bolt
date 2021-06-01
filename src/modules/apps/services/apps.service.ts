@@ -1,7 +1,7 @@
 import { appsDto } from '../dto/apps.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getManager, Connection } from 'typeorm';
+import { Repository, getManager, Connection, Like } from 'typeorm';
 import { Observable, from, of, throwError } from 'rxjs';
 import { switchMap, map, tap, catchError } from 'rxjs/operators';
 
@@ -23,13 +23,19 @@ export class AppsService {
     return this._appsRepository.find({ relations: ['type', 'submenu'] });
   }
 
-  async findAll() {
-    //return this._appsRepository.find();
-    return this._appsRepository.find();
+  async findAll(options: any): Promise<Pagination<App>> {
+    console.log('entra find allddd');
+    return paginate<any>(this._appsRepository, options, {
+      relations: ['type', 'user_created', 'user_update'],
+      where: `(name_es like '%${options.search}%' OR name_en like '%${options.search}%')`,
+      //where: { firstName: "Timber", lastName: "Saw" }
+    });
   }
 
   findOne(id: string) {
-    const app = this._appsRepository.findOne(id);
+    const app = this._appsRepository.findOne(id, {
+      relations: ['type', 'user_created', 'user_update'],
+    });
     if (!app) {
       throw new NotFoundException(`App #${id} not found`);
     }
@@ -62,9 +68,7 @@ export class AppsService {
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
       );
     }
-    //queryBuilder.relation('submenus');
     queryBuilder.relation('type');
-    //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
     return paginate<App>(queryBuilder, options);
   }

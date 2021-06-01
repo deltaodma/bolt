@@ -26,13 +26,14 @@ import { rolesDto } from './../dto/roles.dto';
 import { RolesService } from './../services/roles.service';
 //import { LanguageService } from './../../global/services/language.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';
 const globalVars = dotenv.config();
 
 @ApiTags('Roles')
 @Controller('roles')
+@ApiBearerAuth('JWT')
 export class RolesController {
   constructor(
     private _rolesService: RolesService, //private _LanguageService: LanguageService,

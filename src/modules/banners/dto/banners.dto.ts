@@ -85,4 +85,14 @@ export class bannersDto {
     description: 'status',
   })
   status: number;
+
+  @ApiProperty({
+    description: 'creado',
+  })
+  created_at?: Date | string;
+
+  @ApiProperty({
+    description: 'actualizado',
+  })
+  updated_at?: Date | string;
 }

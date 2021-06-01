@@ -34,15 +34,33 @@ export class ProjectsService {
     return project;
   }
 
+  async findOneMenu(id: string) {
+    return this._projectsRepository.findOne(id, {
+      relations: ['submenus', 'submenus.apps'],
+    });
+  }
+
   async submenus(project_id) {
     let submenus = this._submenuRepository.find();
     return submenus;
   }
 
-  async menu() {
-    return this._projectsRepository.find({
+  async menu(options: any): Promise<Pagination<Project>> {
+    return paginate<Project>(this._projectsRepository, options, {
       relations: ['submenus', 'submenus.apps'],
     });
+    /*return this._projectsRepository.find({
+      relations: ['submenus', 'submenus.apps'],
+    }); */
+  }
+
+  async menuByRol(options: any): Promise<Pagination<Project>> {
+    return paginate<Project>(this._projectsRepository, options, {
+      relations: ['submenus', 'submenus.apps'],
+    });
+    /*return this._projectsRepository.find({
+      relations: ['submenus', 'submenus.apps'],
+    }); */
   }
 
   create(data: projectsDto) {

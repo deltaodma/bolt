@@ -1,25 +1,32 @@
-import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MaxLength,
+  IsArray,
+  ArrayMinSize,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { projectsDto } from './../../projects/dto/projects.dto';
 
-export class projectroleDto {
+export class roleSubmenuDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(36)
   @ApiProperty({
-    description: 'id rol',
+    description: 'project rol id',
     maximum: 36,
+    required: true,
   })
-  role_id: string;
+  projectrol_id: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(36)
   @ApiProperty({
-    description: ' id proyecto',
+    description: 'submenu id',
     maximum: 36,
+    required: true,
   })
-  project_id: string;
+  submenu_id: string;
 
   @IsNotEmpty()
   @ApiProperty({
@@ -27,6 +34,4 @@ export class projectroleDto {
     required: true,
   })
   access: number;
-
-  //project: { id: string };
 }

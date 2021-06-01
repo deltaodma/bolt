@@ -32,9 +32,7 @@ export class ConfigSaml {
           'https://login.microsoftonline.com/1b4c1c25-a699-4f61-95e2-45d8dec5a788/saml2',
         issuer: '' + process.env.SAML_ISSUER,
         cert: fs.readFileSync(
-          process.cwd() +
-            '/src/modules/user/controllers/' +
-            process.env.SAML_CERT ||
+          process.cwd() + '/src/modules/user/controllers/certificate.pem' ||
             process.cwd() + '/src/modules/user/controllers/certificate.pem',
           'utf-8',
         ),

@@ -20,19 +20,18 @@ export class SubmenuService {
   ) {}
 
   async findAll(options: any): Promise<Pagination<Submenu>> {
-    console.log('entra');
     return paginate<any>(this._submenuRepository, options, {
-      relations: ['user_created', 'user_update'],
+      relations: ['user_created', 'user_update', 'apps'],
       //where: `(name like '%${options.search}%' OR last_name like '%${options.search}%')`,
     });
   }
 
   findOne(id: string) {
     const project = this._submenuRepository.findOne(id, {
-      relations: ['user_created', 'user_updated'],
+      relations: ['user_created', 'user_update', 'apps'],
     });
     if (!project) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`submenu #${id} not found`);
     }
     return project;
   }

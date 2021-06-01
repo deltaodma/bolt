@@ -27,7 +27,7 @@ export class TypesService {
   findOne(id: string) {
     const project = this._typesRepository.findOne(id);
     if (!project) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`Type app #${id} not found`);
     }
     return project;
   }
@@ -45,17 +45,9 @@ export class TypesService {
   async paginate(options: any): Promise<Pagination<Type>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._typesRepository.createQueryBuilder('c');
-    queryBuilder.select([
-      'c.id',
-      'c.icon',
-      'c.name_es',
-      'c.name_en',
-      'c.deleted_at',
-    ]);
+    queryBuilder.select(['c.id', 'c.icon', 'c.name', 'c.deleted_at']);
     if (options.search != '') {
-      queryBuilder.where(
-        `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
-      );
+      queryBuilder.where(`(c.name like '%${options.search}%')`);
     }
     //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
@@ -69,7 +61,7 @@ export class TypesService {
   }
 
   async remove(id: string) {
-    await this._typesRepository.delete(id);
-    return true;
+    const type = await this._typesRepository.delete(id);
+    return type;
   }
 }

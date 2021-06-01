@@ -18,10 +18,7 @@ export class Type {
   id: string;
 
   @Column()
-  name_en: string;
-
-  @Column()
-  name_es: string;
+  name: string;
 
   @Column()
   icon: string;

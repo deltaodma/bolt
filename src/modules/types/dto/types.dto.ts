@@ -6,18 +6,10 @@ export class typesDto {
   @IsNotEmpty()
   @MaxLength(45)
   @ApiProperty({
-    description: 'name english',
+    description: 'name',
     maximum: 45,
   })
-  name_en: string;
-
-  @IsString()
-  @MaxLength(45)
-  @ApiProperty({
-    description: 'nombre es',
-    maximum: 45,
-  })
-  name_es: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()

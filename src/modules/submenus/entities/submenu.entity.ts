@@ -16,6 +16,7 @@ import {
 import { User } from './../../user/entities/user.entity';
 import { Project } from './../../projects/entities/projects.entity';
 import { App } from './../../apps/entities/apps.entity';
+import { ProjectRoleSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
 
 @Entity('submenus')
 export class Submenu {
@@ -27,6 +28,12 @@ export class Submenu {
 
   @Column()
   name_en: string;
+
+  @Column()
+  description_es: string;
+
+  @Column()
+  description_en: string;
 
   @Column()
   project_id: string;
@@ -41,23 +48,24 @@ export class Submenu {
   status: number;
 
   //@Column({ type: 'timestamp' })
-  @CreateDateColumn({ name: 'created_at' })
-  created_at?: Date;
+  @Column({ type: 'timestamp' })
+  @CreateDateColumn()
+  created_at: Date;
 
-  @Column({ name: 'updated_at', select: false })
+  @Column({ type: 'timestamp' })
   @UpdateDateColumn()
   updated_at?: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at', select: false })
+  @DeleteDateColumn({ type: 'timestamp' })
   deleted_at?: Date;
 
   @OneToOne(() => User)
   @JoinColumn({ name: 'created_by' })
-  user_created: User;
+  user_created?: User;
 
   @OneToOne(() => User)
   @JoinColumn({ name: 'updated_by' })
-  user_update: User;
+  user_update?: User;
 
   @ManyToOne((type) => Project, (role) => role.submenus, { primary: true })
   @JoinColumn({ name: 'project_id' })
@@ -65,4 +73,8 @@ export class Submenu {
 
   @OneToMany((type) => App, (apps) => apps.submenu)
   apps: App[];
+
+  /*
+  @OneToMany((type) => ProjectRoleSubmenu, (userRole) => userRole.submenu)
+  submenuRoles: ProjectRoleSubmenu[]; */
 }

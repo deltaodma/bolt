@@ -22,6 +22,9 @@ export class User {
   id: string;
 
   @Column()
+  email: string;
+
+  @Column()
   name: string;
 
   @Column()

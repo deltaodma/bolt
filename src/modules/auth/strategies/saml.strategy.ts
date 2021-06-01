@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { passport } from 'passport';
-
+import { PassportStrategy, PassportSerializer } from '@nestjs/passport';
+//import { passport } from 'passport';
+const passport = require('passport');
 var SamlStrategy = require('passport-saml').Strategy;
+import { Profile, VerifiedCallback } from 'passport-saml';
 const fs = require('fs');
+import * as dotenv from 'dotenv';
+const globalVars = dotenv.config();
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 @Injectable()
 export class Saml2Strategy extends PassportStrategy(SamlStrategy, 'saml') {
+  public user: any;
   constructor() {
     super({
       entryPoint: process.env.SAML_ENTRY_POINT,
       issuer: process.env.SAML_ISSUER,
-      callbackUrl: 'http://localhost:5000/api/v1/auth/callback',
+      callbackUrl: process.env.API_URL + 'auth/callback',
+      passReqToCallback: true,
+      scope: ['profile'],
       cert: fs.readFileSync(
-        process.cwd() +
-          '/src/modules/auth/strategies/' +
-          process.env.SAML_CERT ||
+        process.cwd() + '/src/modules/auth/strategies/certificate.pem' ||
           process.cwd() + '/src/modules/auth/strategies/certificate.pem',
         'utf-8',
       ),
       function(profile, done) {
-        console.log('profile in strategy', profile);
         return done(null, {
           id: profile.nameID,
           email:
@@ -40,5 +51,41 @@ export class Saml2Strategy extends PassportStrategy(SamlStrategy, 'saml') {
         });
       },
     });
+  }
+
+  public async validate(profile?: any): Promise<any> {
+    if (!profile) {
+      console.log('error no hay perfil');
+    } else {
+      return {
+        id: profile.eppn,
+        firstName: profile.givenName,
+        lastName: profile.sn,
+        email: profile.email,
+      };
+    }
+  }
+
+  public async done(profile?: any): Promise<any> {
+    if (!profile) {
+      console.log('error no hay perfil');
+    } else {
+      this.user = profile;
+      return {
+        id: profile.eppn,
+        firstName: profile.givenName,
+        lastName: profile.sn,
+        email: profile.email,
+      };
+    }
+  }
+
+  public getUser() {
+    return this.user;
+  }
+
+  public findByEmail(email: string, cb: VerifiedCallback) {
+    console.log('algo');
+    cb(null);
   }
 }

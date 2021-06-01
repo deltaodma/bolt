@@ -27,7 +27,7 @@ import { userDto } from './../dto/user.dto';
 import { UserService } from './../services/user.service';
 //import { LanguageService } from './../../global/services/language.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ConfigSaml } from './config';
 import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
@@ -36,6 +36,7 @@ const SamlStrategy = require('passport-saml').Strategy;
 
 @ApiTags('User')
 @Controller('user')
+@ApiBearerAuth('JWT')
 export class UserController {
   public config: any;
   constructor(
@@ -93,6 +94,7 @@ export class UserController {
 
   @Get('saml')
   getSaml() {
+    /*
     const config = new ConfigSaml();
     console.log(config);
 
@@ -129,7 +131,7 @@ export class UserController {
     passport.authenticate(config.passport['strategy'], {
       successRedirect: '/',
       failureRedirect: '/login',
-    });
+    }); */
   }
 
   @Get(':id')

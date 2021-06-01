@@ -1,10 +1,42 @@
+import { Submenu } from './../submenus/entities/submenu.entity';
+import { Project } from './../projects/entities/projects.entity';
+import { SubmenuService } from './../submenus/services/submenu.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { Saml2Strategy } from './strategies/saml.strategy';
-import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
+import { LocalStrategy } from './local.strategy';
+import { JwtStrategy } from './jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { User } from './../user/entities/user.entity';
+import { jwtConstants } from './constants';
+import { SessionSerializer } from './session.serializer';
+import { ProjectsService } from './../projects/services/projects.service';
 
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([User, Project, Submenu]),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+      property: 'user',
+      session: true,
+    }),
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '10h' },
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService, Saml2Strategy],
+  providers: [
+    AuthService,
+    Saml2Strategy,
+    LocalStrategy,
+    JwtStrategy,
+    SessionSerializer,
+    ProjectsService,
+    SubmenuService,
+  ],
 })
 export class AuthModule {}

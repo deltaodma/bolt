@@ -18,22 +18,25 @@ import {
   UploadedFile,
   Redirect,
 } from '@nestjs/common';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { get } from 'http';
 import { getManager } from 'typeorm';
 import { submenuDto } from './../dto/submenu.dto';
+import { submenuUpdateDto } from './../dto/submenu.update.dto';
 
 import { SubmenuService } from './../services/submenu.service';
 //import { LanguageService } from './../../global/services/language.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
 const passport = require('passport');
 
 @ApiTags('Submenus')
 @Controller('submenus')
+@ApiBearerAuth('JWT')
 export class SubmenuController {
   constructor(
     private _submenuService: SubmenuService, //private _LanguageService: LanguageService,
@@ -87,12 +90,19 @@ export class SubmenuController {
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
   create(@Body() _submenuDto: submenuDto) {
-    return this._submenuService.create(_submenuDto);
+    let data = _submenuDto;
+    data.updated_by = _submenuDto.created_by;
+    return this._submenuService.create(data);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() _submenuDto: submenuDto) {
-    return this._submenuService.update(id, _submenuDto);
+  async update(@Param('id') id: string, @Body() _submenuDto: submenuUpdateDto) {
+    let item = await this._submenuService.findOne(id);
+    item.updated_by = _submenuDto.updated_by;
+    item.name_en = _submenuDto.name_en;
+    item.name_es = _submenuDto.name_es;
+    console.log(item);
+    return this._submenuService.update(id, item);
   }
 
   @Put('changestatus/:id')

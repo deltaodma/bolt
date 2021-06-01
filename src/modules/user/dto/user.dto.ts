@@ -4,6 +4,15 @@ import { ApiProperty } from '@nestjs/swagger';
 export class userDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(250)
+  @ApiProperty({
+    description: 'email',
+    maximum: 250,
+  })
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
   @MaxLength(100)
   @ApiProperty({
     description: 'name',

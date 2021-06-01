@@ -15,6 +15,7 @@ import {
 
 import { Submenu } from './../../submenus/entities/submenu.entity';
 import { Type } from './../../types/entities/types.entity';
+import { User } from './../../user/entities/user.entity';
 
 @Entity('apps')
 export class App {
@@ -28,6 +29,12 @@ export class App {
   url: string;
 
   @Column()
+  username: string;
+
+  @Column()
+  password: string;
+
+  @Column()
   name_es: string;
 
   @Column()
@@ -39,12 +46,22 @@ export class App {
   @Column()
   status: number;
 
-  //@Column({ type: 'timestamp' })
-  @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
+  @Column()
+  created_by: string;
 
-  @Column({ type: 'timestamp', select: false })
-  @UpdateDateColumn()
+  @Column()
+  updated_by: string;
+
+  @Column({
+    type: 'timestamp',
+  })
+  //@CreateDateColumn()
+  created_at: Date | string;
+
+  @Column({
+    type: 'timestamp',
+  })
+  @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
 
   @Column({ type: 'timestamp', select: false })
@@ -58,6 +75,14 @@ export class App {
   @OneToOne(() => Submenu)
   @JoinColumn({ name: 'submenu_id' })
   xax: Submenu;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'created_by' })
+  user_created?: User;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'updated_by' })
+  user_update?: User;
 
   @ManyToOne((type) => Submenu, (role) => role.apps, { primary: true })
   @JoinColumn({ name: 'submenu_id' })

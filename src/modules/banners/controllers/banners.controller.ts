@@ -16,6 +16,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -25,13 +26,17 @@ import { bannersDto } from './../dto/banners.dto';
 
 import { BannersService } from './../services/banners.service';
 import { ArchivoService } from './../../../global/services/archivos.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from './../../auth/jwt-auth.guard';
 import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';
 const globalVars = dotenv.config();
+import { dateCreate } from './../../../util/dateCreate';
 //export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/v1/banners';
 @ApiTags('Banners')
+@UseGuards(JwtAuthGuard)
 @Controller('banners')
+@ApiBearerAuth('JWT')
 export class BannersController {
   constructor(
     private _bannersService: BannersService,
@@ -110,10 +115,12 @@ export class BannersController {
     return this._bannersService.findOne(id);
   }
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
+  //@UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
   //@HttpCode(204)
   create(@Body() _bannersDto: bannersDto) {
+    _bannersDto.created_at = new dateCreate().sysdate;
+    _bannersDto.updated_at = _bannersDto.created_at;
     return this._bannersService.create(_bannersDto);
   }
 

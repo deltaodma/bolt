@@ -25,13 +25,14 @@ import { favoriteDto } from './../dto/favorites.dto';
 
 import { FavoriteService } from './../services/favorites.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';
 const globalVars = dotenv.config();
-
+import { dateCreate } from './../../../util/dateCreate';
 @ApiTags('Favorites')
 @Controller('favorites')
+@ApiBearerAuth('JWT')
 export class FavoritesController {
   constructor(
     private _favoriteService: FavoriteService, //private _LanguageService: LanguageService,
@@ -63,9 +64,11 @@ export class FavoritesController {
     return this._favoriteService.findOne(id);
   }
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
+  //@UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
   create(@Body() _favoritesDto: favoriteDto) {
+    _favoritesDto.created_at = new dateCreate().sysdate;
+    _favoritesDto.updated_at = _favoritesDto.created_at;
     return this._favoriteService.create(_favoritesDto);
   }
 

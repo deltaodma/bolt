@@ -19,16 +19,23 @@ export class UserRoleService {
     @InjectRepository(UserRoles)
     private _userRolesRepository: Repository<UserRoles>,
   ) {}
-
+  /*
   async findAll() {
     //return this._userRolesRepository.find();
     return this._userRolesRepository.find();
+  }*/
+  async findAll(options: any): Promise<Pagination<UserRoles>> {
+    console.log('entra submenu roles');
+    return paginate<any>(this._userRolesRepository, options, {
+      relations: ['user', 'role'],
+      //where: `(name like '%${options.search}%' OR last_name like '%${options.search}%')`,
+    });
   }
 
   findOne(id: string) {
     const project = this._userRolesRepository.findOne(id);
     if (!project) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`User Role #${id} not found`);
     }
     return project;
   }
@@ -49,14 +56,7 @@ export class UserRoleService {
   async paginate(options: any): Promise<Pagination<UserRoles>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._userRolesRepository.createQueryBuilder('c');
-    queryBuilder.select([
-      'c.id',
-      'c.name',
-      'c.last_name',
-      'c.country',
-      'c.employee_code',
-      'c.deleted_at',
-    ]);
+    queryBuilder.select(['c.id', 'c.user_id', 'c.role_id']);
     if (options.search != '') {
       queryBuilder.where(
         `(c.name like '%${options.search}%' OR c.last_name like '%${options.search}%' OR c.country like '%${options.search}%' OR c.eployee_code like '%${options.search}%')`,
