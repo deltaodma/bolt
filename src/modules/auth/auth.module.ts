@@ -24,8 +24,8 @@ import { ProjectsService } from './../projects/services/projects.service';
       session: true,
     }),
     JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '10h' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.TOKEN_EXPIRES_TIME },
     }),
   ],
   controllers: [AuthController],

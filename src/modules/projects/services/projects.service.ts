@@ -73,8 +73,14 @@ export class ProjectsService {
     return paginate(this._projectsRepository, { page, limit });
   }
 
+  async paginate(options: any): Promise<Pagination<Submenu>> {
+    return paginate<any>(this._projectsRepository, options, {
+      relations: ['submenus'],
+      //where: `(name like '%${options.search}%' OR last_name like '%${options.search}%')`,
+    });
+  }
+  /* 
   async paginate(options: any): Promise<Pagination<Project>> {
-    //console.log('in bannerservice ', options.search);
     const queryBuilder = this._projectsRepository.createQueryBuilder('c');
     queryBuilder.select([
       'c.id',
@@ -91,10 +97,9 @@ export class ProjectsService {
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
       );
     }
-    //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
     return paginate<Project>(queryBuilder, options);
-  }
+  } */
 
   async update(id: string, changes: any) {
     const item = await this._projectsRepository.findOne(id);

@@ -25,7 +25,7 @@ export class UserRoles {
   user_id: string;
 
   @Column()
-  role_id: string;
+  rol_id: string;
 
   //@Column({ type: 'timestamp' })
   @CreateDateColumn({ name: 'created_at' })
@@ -43,6 +43,6 @@ export class UserRoles {
   user: User;
 
   @ManyToOne((type) => Role, (role) => role.userRoles, { primary: true })
-  @JoinColumn({ name: 'role_id' })
+  @JoinColumn({ name: 'rol_id' })
   role: Role;
 }

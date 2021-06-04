@@ -34,6 +34,8 @@ import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
 const passport = require('passport');
 
+import { dateCreate } from './../../../util/dateCreate';
+
 @ApiTags('Submenus')
 @Controller('submenus')
 @ApiBearerAuth('JWT')
@@ -89,10 +91,12 @@ export class SubmenuController {
 
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
-  create(@Body() _submenuDto: submenuDto) {
-    let data = _submenuDto;
-    data.updated_by = _submenuDto.created_by;
-    return this._submenuService.create(data);
+  async create(@Body() _submenuDto: submenuDto) {
+    _submenuDto.updated_by = _submenuDto.created_by;
+    _submenuDto.created_at = new dateCreate().sysdate;
+    _submenuDto.updated_at = _submenuDto.created_at;
+    const submenu = this._submenuService.create(_submenuDto);
+    return submenu;
   }
 
   @Put(':id')

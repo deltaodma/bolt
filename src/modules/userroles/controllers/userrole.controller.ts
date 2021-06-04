@@ -1,3 +1,4 @@
+import { UserService } from './../../user/services/user.service';
 import {
   Controller,
   Get,
@@ -35,7 +36,8 @@ const globalVars = dotenv.config();
 @ApiBearerAuth('JWT')
 export class UserRoleController {
   constructor(
-    private _userService: UserRoleService, //private _LanguageService: LanguageService,
+    private _userRolService: UserRoleService, //private _LanguageService: LanguageService,
+    private _userService: UserService,
   ) {}
 
   @Get()
@@ -48,7 +50,7 @@ export class UserRoleController {
     limit == undefined ? (limit = 10) : request['query']['limit'];
     page == undefined ? (page = 1) : request['query']['page'];
 
-    return this._userService.findAll({
+    return this._userRolService.findAll({
       limit: Number(limit),
       page: Number(page),
       search: String(search),
@@ -61,22 +63,45 @@ export class UserRoleController {
 
   @Get(':id')
   getOne(@Param('id') id: string) {
-    return this._userService.findOne(id);
+    return this._userRolService.findOne(id);
   }
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
-  @Post()
-  create(@Body() _userDto: userRoleDto) {
-    return this._userService.create(_userDto);
+  //@UsePipes(new ValidationPipe({ whitelist: true }))
+  @Post(':id')
+  async create(@Param('id') id: string, @Body() _userDto: userRoleDto[]) {
+    const rolesSave = await this._userRolService.create(_userDto);
+    let result = await this._userService.findOne(rolesSave[0].user_id);
+    result.updated_by = id;
+    const actualizarUser = await this._userService.update(
+      rolesSave[0].user_id,
+      result,
+    );
+    return result;
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() _userDto: userRoleDto) {
-    return this._userService.update(id, _userDto);
+  async update(@Param('id') id: string, @Body() _userDto: userRoleDto[]) {
+    //return this._userRolService.update(userDto);
+    let buscarData = await this._userRolService.findUserRoles(
+      _userDto[0].user_id,
+    );
+    if (buscarData.length > 0) {
+      const deleleRecords = await this._userRolService.removeFromArray(
+        buscarData,
+      );
+      const rolesSave = await this._userRolService.create(_userDto);
+      let result = await this._userService.findOne(rolesSave[0].user_id);
+      result.updated_by = id;
+      const actualizarUser = await this._userService.update(
+        rolesSave[0].user_id,
+        result,
+      );
+      return result;
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this._userService.remove(id);
+    return this._userRolService.remove(id);
   }
 }

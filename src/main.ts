@@ -7,6 +7,8 @@ const morgan = require('morgan');
 import * as session from 'express-session';
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+import * as express from 'express';
+const path = require('path');
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
@@ -29,6 +31,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   //const logger = new Logger();
   app.setGlobalPrefix('api/v1');
+  //app.use(express.static(path.join(__dirname, 'public')));
+  //app.use(express.static(path.join(__dirname, 'uploads')));
   const config = new DocumentBuilder()
     .setTitle('bolt')
     .setDescription('bolt API description')

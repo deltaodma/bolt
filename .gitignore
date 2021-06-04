@@ -1,7 +1,11 @@
 # compiled output
 /dist
 /node_modules
-
+/uploads
+.env
+copia2.env
+copia.env
+ 
 
 # Logs
 logs

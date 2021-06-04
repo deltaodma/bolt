@@ -22,7 +22,7 @@ export class ProjectRole {
   id: string;
 
   @Column()
-  role_id: string;
+  rol_id: string;
 
   @Column()
   project_id: string;
@@ -39,7 +39,7 @@ export class ProjectRole {
   deleted_at?: Date;
   /*
   @OneToOne(() => Role)
-  @JoinColumn({ name: 'role_id' })
+  @JoinColumn({ name: 'rol_id' })
   rol: Role;
 
   @OneToOne(() => Project)

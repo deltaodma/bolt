@@ -33,8 +33,8 @@ export class Language {
   updated_at: Date;
   @Column({ type: 'timestamp' })
   deleted_at: Date;
-
+  /*
   @ManyToOne(() => Banner, (banner) => banner.lang)
   @JoinColumn({ name: 'parent_id' })
-  banners: Banner;
+  banners: Banner;*/
 }

@@ -32,6 +32,10 @@ export class UserRoleService {
     });
   }
 
+  findUserRoles(id: string) {
+    return this._userRolesRepository.find({ where: [{ user_id: id }] });
+  }
+
   findOne(id: string) {
     const project = this._userRolesRepository.findOne(id);
     if (!project) {
@@ -40,7 +44,7 @@ export class UserRoleService {
     return project;
   }
 
-  create(data: userRoleDto) {
+  create(data: userRoleDto[]) {
     const newItem = this._userRolesRepository.create(data);
     return this._userRolesRepository.save(newItem);
     return data;
@@ -56,7 +60,7 @@ export class UserRoleService {
   async paginate(options: any): Promise<Pagination<UserRoles>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._userRolesRepository.createQueryBuilder('c');
-    queryBuilder.select(['c.id', 'c.user_id', 'c.role_id']);
+    queryBuilder.select(['c.id', 'c.user_id', 'c.rol_id']);
     if (options.search != '') {
       queryBuilder.where(
         `(c.name like '%${options.search}%' OR c.last_name like '%${options.search}%' OR c.country like '%${options.search}%' OR c.eployee_code like '%${options.search}%')`,
@@ -74,7 +78,14 @@ export class UserRoleService {
   }
 
   async remove(id: string) {
-    await this._userRolesRepository.softDelete(id);
+    //await this._userRolesRepository.softDelete(id);
+    await this._userRolesRepository.delete(id);
+    return true;
+  }
+
+  async removeFromArray(data: UserRoles[]) {
+    //await this._userRolesRepository.softDelete(id);
+    await this._userRolesRepository.remove(data);
     return true;
   }
 }

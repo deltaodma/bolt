@@ -17,13 +17,8 @@ export class favoriteDto {
     maximum: 36,
   })
   user_id: string;
-  @ApiProperty({
-    description: 'creado',
-  })
+
   created_at?: Date | string;
 
-  @ApiProperty({
-    description: 'actualizado',
-  })
   updated_at?: Date | string;
 }

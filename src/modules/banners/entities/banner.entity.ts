@@ -1,9 +1,11 @@
+import { Archivo } from './../../../global/entities/archivos.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToOne,
   ManyToMany,
   JoinTable,
   OneToMany,
@@ -61,7 +63,15 @@ export class Banner {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @OneToMany(() => Language, (language) => language.banners)
+  /*@OneToMany(() => Language, (language) => language.banners)
   @JoinColumn({ name: 'id' })
-  lang: Language[];
+  lang: Language[];*/
+
+  @OneToOne(() => Archivo)
+  @JoinColumn({ name: 'pdf' })
+  pdf_info?: Archivo;
+
+  @OneToOne(() => Archivo)
+  @JoinColumn({ name: 'image' })
+  image_info?: Archivo;
 }

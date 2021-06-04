@@ -16,9 +16,14 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
 } from '@nestjs/common';
-import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
+import {
+  FileInterceptor,
+  FileFieldsInterceptor,
+  MulterModule,
+} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { get } from 'http';
 import { getManager } from 'typeorm';
@@ -32,7 +37,7 @@ import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';
 const globalVars = dotenv.config();
 import { dateCreate } from './../../../util/dateCreate';
-//export const BLOG_ENTRIES_URL = 'http://localhost:3000/api/v1/banners';
+const path = require('path');
 @ApiTags('Banners')
 @UseGuards(JwtAuthGuard)
 @Controller('banners')
@@ -118,7 +123,57 @@ export class BannersController {
   //@UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
   //@HttpCode(204)
-  create(@Body() _bannersDto: bannersDto) {
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'pdf', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination:
+            'uploads/' +
+            new Date().getFullYear() +
+            '/' +
+            (new Date().getMonth() + 1) +
+            '/' +
+            new Date().getDate(),
+          filename: renameImage,
+        }),
+      },
+    ),
+  )
+  async create(@UploadedFiles() files, @Body() _bannersDto: bannersDto) {
+    if (files.image != undefined) {
+      let archivoImg = {
+        name: files.image[0].filename,
+        relative_path:
+          'uploads' + files.image[0].destination.split('uploads')[1],
+        full_path:
+          '/uploads' +
+          files.image[0].destination.split('./uploads')[1] +
+          '/' +
+          files.image[0].filename,
+      };
+      let imageSave = await this._ArchivoService.create(archivoImg);
+      _bannersDto.image = imageSave['id'];
+    }
+
+    if (files.pdf != undefined) {
+      let archivoPdf = {
+        name: files.pdf[0].filename,
+        relative_path: 'uploads' + files.pdf[0].destination.split('uploads')[1],
+        full_path:
+          '/uploads' +
+          files.pdf[0].destination.split('./uploads')[1] +
+          '/' +
+          files.pdf[0].filename,
+      };
+      let pdfSave = await this._ArchivoService.create(archivoPdf);
+      _bannersDto.pdf = pdfSave['id'];
+    }
+    console.log('ruta raiz ', path.basename);
+
     _bannersDto.created_at = new dateCreate().sysdate;
     _bannersDto.updated_at = _bannersDto.created_at;
     return this._bannersService.create(_bannersDto);

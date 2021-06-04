@@ -64,6 +64,11 @@ export class FavoritesController {
     return this._favoriteService.findOne(id);
   }
 
+  @Get('favorites/user/:id')
+  async getUserFavorites(@Param('id') id: string) {
+    return await this._favoriteService.findUserFavorites(id, '');
+  }
+
   //@UsePipes(new ValidationPipe({ whitelist: true }))
   @Post()
   create(@Body() _favoritesDto: favoriteDto) {

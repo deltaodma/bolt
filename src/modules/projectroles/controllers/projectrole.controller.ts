@@ -104,7 +104,7 @@ export class ProjectRoleController {
       for (let i = 0; i < _submenuDto.projects.length; i++) {
         //console.log('intenttos de guardar variable i ', i);
         let projectroleGuardar: projectroleDto = {
-          role_id: rolGuardar['id'],
+          rol_id: rolGuardar['id'],
           project_id: _submenuDto.projects[i],
           //project: { id: _submenuDto.projects[i] },
           access: 1,
@@ -118,7 +118,7 @@ export class ProjectRoleController {
           let createProjectRole = await this._ProjectRoleService.create(
             projectroleGuardar,
           );
-          /*
+
           if (
             createProjectRole['id'] != '' &&
             createProjectRole['id'] != null &&
@@ -127,45 +127,40 @@ export class ProjectRoleController {
             let submenus = await _submenuDto.submenus.filter((items) => {
               return items.projects_id == createProjectRole.project_id;
             });
-
+            console.log('los submenus ', submenus);
             for (let j = 0; j < submenus.length; j++) {
               let submenuGuadar: roleSubmenuDto = {
                 projectrol_id: createProjectRole['id'],
                 submenu_id: submenus[j].submenu_id,
                 access: 1,
               };
-              if (createProjectRole['id'] != '') {
-                let createSubmenuRole = await this._ProjectRoleService.createSubmenuRole(
-                  submenuGuadar,
-                );
-                //console.log('guardado submenu role', createSubmenuRole);
+              console.log('submenu guardar ', submenuGuadar);
+              let createSubmenuRole = await this._ProjectRoleService.createSubmenuRole(
+                submenuGuadar,
+              );
 
-                if (
-                  createSubmenuRole['id'] != '' &&
-                  createSubmenuRole['id'] != null &&
-                  createSubmenuRole['id'] != undefined
-                ) {
-                  let apps = await _submenuDto.apps.filter((items) => {
-                    return items.submenu_id == createSubmenuRole.submenu_id;
-                  });
+              if (
+                createSubmenuRole['id'] != '' &&
+                createSubmenuRole['id'] != null &&
+                createSubmenuRole['id'] != undefined
+              ) {
+                let apps = await _submenuDto.apps.filter((items) => {
+                  return items.submenu_id === createSubmenuRole.submenu_id;
+                });
 
-                  //console.log('las apps ', apps);
+                for (let k = 0; k < apps.length; k++) {
+                  let rolapp: appRolDto = {
+                    app_id: apps[k].app_id,
+                    submenu_rol_id: createSubmenuRole['id'],
+                  };
 
-                  for (let k = 0; k < apps.length; k++) {
-                    let rolapp: appRolDto = {
-                      app_id: apps[k].app_id,
-                      submenu_role_id: createSubmenuRole['id'],
-                    };
-
-                    let createAppRole = await this._ProjectRoleService.createAppRole(
-                      rolapp,
-                    );
-                    //console.log('approle', createAppRole);
-                  }
+                  let createAppRole = await this._ProjectRoleService.createAppRole(
+                    rolapp,
+                  );
                 }
               }
             }
-          } */
+          }
         }
       }
     } else {

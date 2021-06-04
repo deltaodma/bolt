@@ -18,20 +18,14 @@ import { UserrolesModule } from './modules/userroles/userroles.module';
 import { SubmenusModule } from './modules/submenus/submenus.module';
 import { ProjectrolesModule } from './modules/projectroles/projectroles.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
-    /*TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'bolt', */
-    //entities: ['dist/**/*.entity{.ts,.js}'],
-    //synchronize: false,
-    //retryDelay: 3000,
-    //retryAttempts: 10,
-    //}),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'), // <-- path to the static files
+    }),
+
     BannersModule,
     ProjectsModule,
     AppsModule,

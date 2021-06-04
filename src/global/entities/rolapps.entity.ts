@@ -25,5 +25,5 @@ export class RolApps {
   app_id: string;
 
   @Column()
-  submenu_role_id: string;
+  submenu_rol_id: string;
 }

@@ -68,4 +68,7 @@ export class submenuDto {
     description: 'status',
   })
   status: number;
+
+  created_at?: Date | string;
+  updated_at?: Date | string;
 }
