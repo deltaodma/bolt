@@ -2,21 +2,16 @@ import {
   Controller,
   Get,
   Param,
-  Query,
   Req,
   Post,
   Body,
   Put,
   Delete,
-  HttpCode,
-  UsePipes,
-  ValidationPipe,
-  BadRequestException,
-  NotFoundException,
   Request,
-  UseInterceptors,
-  UploadedFile,
-  Redirect,
+  HttpException,
+  HttpStatus,
+  UseGuards,
+  Headers,
 } from '@nestjs/common';
 import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -28,6 +23,7 @@ import { UserService } from './../services/user.service';
 //import { LanguageService } from './../../global/services/language.service';
 
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from './../../auth/jwt-auth.guard';
 import { ConfigSaml } from './config';
 import * as dotenv from 'dotenv';
 const globalVars = dotenv.config();
@@ -35,6 +31,7 @@ const passport = require('passport');
 const SamlStrategy = require('passport-saml').Strategy;
 
 @ApiTags('User')
+@UseGuards(JwtAuthGuard)
 @Controller('user')
 @ApiBearerAuth('JWT')
 export class UserController {
@@ -46,23 +43,71 @@ export class UserController {
   }
 
   @Get()
-  @HttpCode(200)
-  getAll(@Req() request: Request) {
-    console.log(request['query']['search']);
+  //@HttpCode(200)
+  async getAllUser(
+    @Req() request: Request,
+    @Body() searchForm: { name: string; country: string },
+  ) {
+    //console.log(request['query']['search']);
+    console.log('searchform', searchForm);
     let { page, limit, search } = request['query'];
-    search == undefined ? (search = '') : request['query']['search'];
+    search = Object.keys(searchForm);
+
+    search.length == 0
+      ? (search = { name: '', country: '' })
+      : (search = searchForm);
+
+    console.log('el search', search.name);
+
     limit == undefined ? (limit = 10) : request['query']['limit'];
     page == undefined ? (page = 1) : request['query']['page'];
     let options = {
       limit: Number(limit),
       page: Number(page),
-      search: String(search),
+      search: search,
       route:
         search != ''
-          ? process.env.API_URL + 'user?search=' + search
+          ? process.env.API_URL + 'user'
           : process.env.API_URL + 'user',
     };
-    return this._userService.findAll(options);
+    const resultList = await this._userService.findAll(options);
+    if (resultList.items.length == 0) {
+      throw new HttpException({ error: 'records not found' }, HttpStatus.OK);
+    } else return resultList;
+  }
+
+  @Post()
+  //@HttpCode(200)
+  async getAll(
+    @Req() request: Request,
+    @Body() searchForm: { name: string; country: string },
+  ) {
+    //console.log(request['query']['search']);
+    console.log('searchform', searchForm);
+    let { page, limit, search } = request['query'];
+    search = Object.keys(searchForm);
+
+    search.length == 0
+      ? (search = { name: '', country: '' })
+      : (search = searchForm);
+
+    console.log('el search', search.name);
+
+    limit == undefined ? (limit = 10) : request['query']['limit'];
+    page == undefined ? (page = 1) : request['query']['page'];
+    let options = {
+      limit: Number(limit),
+      page: Number(page),
+      search: search,
+      route:
+        search != ''
+          ? process.env.API_URL + 'user'
+          : process.env.API_URL + 'user',
+    };
+    const resultList = await this._userService.findAll(options);
+    if (resultList.items.length == 0) {
+      throw new HttpException({ error: 'records not found' }, HttpStatus.OK);
+    } else return resultList;
   }
 
   /*@Get()
@@ -84,6 +129,15 @@ export class UserController {
           : process.env.API_URL + 'user',
     });
   } */
+  /*
+  @Get('other')
+  otro() {
+    passport.authenticate(this.config.passport.strategy, {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    });
+  } */
+
   @Get('other')
   otro() {
     passport.authenticate(this.config.passport.strategy, {
@@ -93,54 +147,15 @@ export class UserController {
   }
 
   @Get('saml')
-  getSaml() {
-    /*
-    const config = new ConfigSaml();
-    console.log(config);
-
-    passport.serializeUser(function (user, done) {
-      done(null, user);
-    });
-
-    passport.deserializeUser(function (user, done) {
-      done(null, user);
-    });
-
-    passport.use(
-      new SamlStrategy(config.passport['saml'], function (profile, done) {
-        return done(null, {
-          id: profile.nameID,
-          email:
-            profile[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
-            ],
-          displayName:
-            profile['http://schemas.microsoft.com/identity/claims/displayname'],
-          firstName:
-            profile[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'
-            ],
-          lastName:
-            profile[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'
-            ],
-        });
-      }),
-    );
-    //@Redirect('https://nestjs.com', 301);
-    passport.authenticate(config.passport['strategy'], {
-      successRedirect: '/',
-      failureRedirect: '/login',
-    }); */
-  }
+  getSaml() {}
 
   @Get(':id')
   getOne(@Param('id') id: string) {
     return this._userService.findOne(id);
   }
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
-  @Post()
+  //@UsePipes(new ValidationPipe({ whitelist: true }))
+  @Post('createuser')
   create(@Body() _userDto: userDto) {
     return this._userService.create(_userDto);
   }
@@ -151,8 +166,11 @@ export class UserController {
   }
 
   @Put('changestatus/:id')
-  updateStatus(@Param('id') id: string) {
-    return this._userService.updateStatus(id);
+  async updateStatus(
+    /*@Headers('Authorization') auth: string,*/
+    @Param('id') id: string,
+  ) {
+    return await this._userService.updateStatus(id);
   }
 
   @Delete(':id')

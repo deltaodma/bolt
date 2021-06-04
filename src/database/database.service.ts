@@ -13,11 +13,11 @@ export const databaseProviders = [
     async useFactory(config: ConfigService) {
       return {
         type: 'mysql' as 'mysql',
-        host: 'localhost',
-        username: 'root',
+        host: 'un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        username: 'rl4t0ifoetjy1hwp',
         port: 3306,
-        database: 'bolt',
-        password: '',
+        database: 'uii98fu77xic7lc8',
+        password: 'ru59gknltb3gf3ep',
         //entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         entities: ['dist/**/*.entity{.ts,.js}'],
         //migrations: [__dirname + '/migrations/*{.ts,.js}'],

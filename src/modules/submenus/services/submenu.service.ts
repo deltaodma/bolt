@@ -36,10 +36,10 @@ export class SubmenuService {
     return project;
   }
 
-  create(data: submenuDto) {
+  async create(data: submenuDto) {
     const newItem = this._submenuRepository.create(data);
-    return this._submenuRepository.save(newItem);
-    return data;
+    const submenu = await this._submenuRepository.save(newItem);
+    return await this.findOne(submenu.id);
   }
 
   async paginateAll(page: number, limit: number): Promise<Pagination<Submenu>> {

@@ -1,3 +1,4 @@
+import { dateCreate } from './../../../util/dateCreate';
 import { authDto } from '../dto/auth.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -74,10 +75,12 @@ export class AuthService {
   }
   */
 
-  findOne(id: string) {
-    const project = this._userRepository.findOne(id, { relations: ['roles'] });
+  async findOne(id: string) {
+    const project = await this._userRepository.findOne(id, {
+      relations: ['roles'],
+    });
     if (!project) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`User #${id} not found`);
     }
     return project;
   }
@@ -93,8 +96,16 @@ export class AuthService {
       employee_code: '' + new Date().getTime(),
       status: 1,
     };
-    const newItem = await this._userRepository.create(userSave);
+    let newItem = await this._userRepository.create(userSave);
     this._userRepository.save(newItem);
+    newItem.created_by = newItem.id;
+    newItem.created_at = new dateCreate().sysdate;
+
+    let addUserCreateAndDate = await this._userRepository.update(
+      newItem.id,
+      newItem,
+    );
+
     return this.generateToken(newItem);
   }
   async create(data: authDto) {
@@ -156,7 +167,7 @@ export class AuthService {
   async update(id: string, changes: any) {
     const item = await this._userRepository.findOne(id);
     this._userRepository.merge(item, changes);
-    return this._userRepository.save(item);
+    return await this._userRepository.save(item);
   }
 
   async updateStatus(id: string) {

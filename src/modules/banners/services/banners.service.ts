@@ -19,17 +19,37 @@ export class BannersService {
     @InjectRepository(Banner) private _bannersRepository: Repository<Banner>,
   ) {}
 
-  async findAll() {
+  /*async paginate() {
     //return this._bannersRepository.find();
-    return this._bannersRepository.find({ relations: ['lang'] });
+    return this._bannersRepository.find({
+      relations: ['pdf_info', 'image_info'],
+    });
+  }*/
+
+  async paginate(options: any): Promise<Pagination<Banner>> {
+    return paginate<any>(this._bannersRepository, options, {
+      relations: ['pdf_info', 'image_info'],
+      where: `(name_en like '%${options.search}%' OR name_es like '%${options.search}%')`,
+    });
   }
 
+  /*
   findOne(id: string) {
-    const product = this._bannersRepository.findOne(id);
+    const product = this._bannersRepository.findOne(id,{});
     if (!product) {
       throw new NotFoundException(`Banner #${id} not found`);
     }
     return product;
+  }*/
+
+  findOne(id: string) {
+    const project = this._bannersRepository.findOne(id, {
+      relations: ['pdf_info', 'image_info'],
+    });
+    if (!project) {
+      throw new NotFoundException(`Banner #${id} not found`);
+    }
+    return project;
   }
 
   create(data: bannersDto) {
@@ -42,7 +62,7 @@ export class BannersService {
     return paginate(this._bannersRepository, { page, limit });
   }
 
-  async paginate(options: any): Promise<Pagination<Banner>> {
+  async paginateAs(options: any): Promise<Pagination<Banner>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._bannersRepository.createQueryBuilder('c');
     queryBuilder.select([

@@ -33,6 +33,38 @@ export class FavoriteService {
     return project;
   }
 
+  /*
+  async paginate(options: any): Promise<Pagination<Favorite>> {
+    return paginate<any>(this._favoriteRepository, options, {
+      relations: ['app', 'user'],
+      //where: `(name like '%${options.search}%' OR last_name like '%${options.search}%')`,
+    });
+  }
+*/
+  findUserFavorites(user_id: string, options: any) {
+    /*return paginate<any>(this._favoriteRepository, options, {
+      relations: ['app', 'user', 'apps.type'],
+      where: `(user_id = '${user_id}')`,
+    });*/
+
+    const queryBuilder = this._favoriteRepository
+      .createQueryBuilder('c')
+      .select([
+        'c.id id',
+        'c.app_id app_id',
+        'c.user_id user_id',
+        'apps.name_en name_en',
+        'apps.name_es name_es',
+        'types.name as name',
+      ])
+      .innerJoin('c.app', 'apps')
+      .innerJoin('c.user', 'users')
+      .innerJoin('apps.type', 'types')
+      .where('c.user_id = :user', { user: user_id })
+      .getRawMany();
+    return queryBuilder;
+  }
+
   create(data: favoriteDto) {
     const newItem = this._favoriteRepository.create(data);
     return this._favoriteRepository.save(newItem);
@@ -45,19 +77,27 @@ export class FavoriteService {
   ): Promise<Pagination<Favorite>> {
     return paginate(this._favoriteRepository, { page, limit });
   }
-
+  /*
   async paginate(options: any): Promise<Pagination<Favorite>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._favoriteRepository.createQueryBuilder('c');
-    queryBuilder.select(['c.id', 'c.name_es', 'c.name_en', 'c.deleted_at']);
+    queryBuilder.select(['c.id', 'c.app_id', 'c.user_id']);
     if (options.search != '') {
       queryBuilder.where(
         `(c.name_es like '%${options.search}%' OR c.name_en like '%${options.search}%')`,
       );
     }
     //queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
+    queryBuilder.relation('user');
 
     return paginate<Favorite>(queryBuilder, options);
+  } */
+
+  async paginate(options: any): Promise<Pagination<Favorite>> {
+    return paginate<any>(this._favoriteRepository, options, {
+      relations: ['app', 'user'],
+      //where: `(name like '%${options.search}%' OR last_name like '%${options.search}%')`,
+    });
   }
 
   async update(id: string, changes: any) {
@@ -68,7 +108,7 @@ export class FavoriteService {
 
   async remove(id: string) {
     //await this._favoriteRepository.delete(id);
-    await this._favoriteRepository.softDelete(id);
+    await this._favoriteRepository.delete(id);
     return true;
   }
 }

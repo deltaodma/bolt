@@ -2,14 +2,11 @@ import { IsString, IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class bannersDto {
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(45)
   @ApiProperty({
     description: 'imagen data',
     maximum: 45,
   })
-  image: string;
+  image?: string;
 
   @IsString()
   @MaxLength(250)
@@ -23,7 +20,7 @@ export class bannersDto {
     description: 'pdf',
     maximum: 45,
   })
-  pdf: string;
+  pdf?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -79,12 +76,10 @@ export class bannersDto {
   })
   content_en: string;
 
-  @IsNumber()
-  @IsNotEmpty()
   @ApiProperty({
     description: 'status',
   })
-  status: number;
+  status?: number;
 
   @ApiProperty({
     description: 'creado',

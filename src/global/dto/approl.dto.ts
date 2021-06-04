@@ -9,8 +9,8 @@ export class appRolDto {
     description: 'app id',
     maximum: 36,
   })
-  app_id: string;  
-  
+  app_id: string;
+
   @IsString()
   @IsNotEmpty()
   @MaxLength(36)
@@ -18,6 +18,5 @@ export class appRolDto {
     description: 'id fk rolessubmenus.id',
     maximum: 36,
   })
-  submenu_role_id: string;
-
+  submenu_rol_id: string;
 }

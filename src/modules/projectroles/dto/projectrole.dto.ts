@@ -10,7 +10,7 @@ export class projectroleDto {
     description: 'id rol',
     maximum: 36,
   })
-  role_id: string;
+  rol_id: string;
 
   @IsString()
   @IsNotEmpty()

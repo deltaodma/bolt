@@ -108,7 +108,6 @@ export class AuthController {
     if (user) {
       const token = await this._AuthService.generateToken(user);
       token['projects'] = await this.addProjects();
-      console.log('existe usuario');
       return token;
     } else {
       const userCreate = await this._AuthService.createFromSaml(userSave);
@@ -128,20 +127,7 @@ export class AuthController {
 
   @Post('/callback')
   async callback(@Request() req, @Body() body: any, @Res() res: any) {
-    //console.log('el req user ', req.user);
-    //console.log(req.profile);
-    //console.log(body.SAMLResponse);
-    /*const Xmlparse = await this.decodeXMl(body.SAMLResponse);
-    console.log('el parsero ', Xmlparse);
-
-    const propiedades = await parseString(Xmlparse, function (err, result) {
-      console.log('inside function');
-      console.log(result);
-    }); */
-
     var parser = await new Saml2js(body.SAMLResponse);
-    //console.log('resultado parser');
-    //console.log(parser);
     const dataUser: authDto = {
       id: parser.parsedSaml.httpSchemasXmlsoapOrgWs200505IdentityClaimsName,
       firstName:

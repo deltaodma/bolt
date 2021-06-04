@@ -2,6 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  OneToOne,
   ManyToOne,
   JoinColumn,
   ManyToMany,
@@ -39,6 +40,12 @@ export class User {
   @Column()
   status: number;
 
+  @Column()
+  created_by: string;
+
+  @Column()
+  updated_by: string;
+
   //@Column({ type: 'timestamp' })
   @CreateDateColumn({ name: 'created_at' })
   created_at?: Date;
@@ -50,6 +57,14 @@ export class User {
   @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at?: Date;
 
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'created_by' })
+  user_created?: User;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'updated_by' })
+  user_update?: User;
+
   @OneToMany((type) => UserRoles, (userRole) => userRole.user)
   userRoles: UserRoles[];
 
@@ -57,13 +72,13 @@ export class User {
   @JoinTable({
     name: 'user_roles',
     joinColumns: [{ name: 'user_id' }],
-    inverseJoinColumns: [{ name: 'role_id' }],
+    inverseJoinColumns: [{ name: 'rol_id' }],
   })
   // The following definitions can be achieved
   //   @JoinTable({
   //     name: 'user_role',
   //     joinColumn: { name: 'user_id' },
-  //     inverseJoinColumn: { name: 'role_id' },
+  //     inverseJoinColumn: { name: 'rol_id' },
   //   })
   roles: Role[];
 }

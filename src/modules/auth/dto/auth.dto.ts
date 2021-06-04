@@ -36,4 +36,21 @@ export class authDto {
     maximum: 100,
   })
   lastName: string;
+
+  @ApiProperty({
+    description: 'created by',
+    maximum: 36,
+  })
+  created_by?: string;
+
+  @ApiProperty({
+    description: 'created by',
+    maximum: 36,
+  })
+  updated_by?: string;
+
+  @ApiProperty({
+    description: 'created at',
+  })
+  created_at?: Date | string;
 }

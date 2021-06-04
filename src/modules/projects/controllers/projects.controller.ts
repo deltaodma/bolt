@@ -110,7 +110,7 @@ export class ProjectsController {
 
   @Get(':id')
   getOne(@Param('id') id: string) {
-    return this._projectsService.findOne(id);
+    return this._projectsService.findOneMenu(id);
   }
 
   @UsePipes(new ValidationPipe({ whitelist: true }))

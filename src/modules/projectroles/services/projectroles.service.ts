@@ -68,7 +68,7 @@ export class ProjectRoleService {
   async createSubmenuRole(data: roleSubmenuDto) {
     console.log('en service submenurole', data);
     const item = await this._projectRoleSubmenuRepository.create(data);
-    return this._projectRoleRespository.save(item);
+    return this._projectRoleSubmenuRepository.save(item);
     //console.log(item);
 
     /*const queryBuilder = await this._projectRoleRespository
@@ -88,7 +88,7 @@ export class ProjectRoleService {
       .createQueryBuilder()
       .insert()
       .into(RolApps)
-      .values([{ app_id: data.app_id, submenu_role_id: data.submenu_role_id }])
+      .values([{ app_id: data.app_id, submenu_rol_id: data.submenu_rol_id }])
       .execute();
 
     return queryBuilder;
@@ -104,7 +104,7 @@ export class ProjectRoleService {
   async paginate(options: any): Promise<Pagination<ProjectRole>> {
     //console.log('in bannerservice ', options.search);
     const queryBuilder = this._projectRoleRespository.createQueryBuilder('c');
-    queryBuilder.select(['c.id', 'c.role_id', 'c.project_id']);
+    queryBuilder.select(['c.id', 'c.rol_id', 'c.project_id']);
 
     /*if (options.search != '') {
       queryBuilder.where(
