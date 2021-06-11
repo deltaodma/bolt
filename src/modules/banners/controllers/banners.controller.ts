@@ -132,7 +132,7 @@ export class BannersController {
       {
         storage: diskStorage({
           destination:
-            'uploads/' +
+            './client/uploads/' +
             new Date().getFullYear() +
             '/' +
             (new Date().getMonth() + 1) +
@@ -147,11 +147,9 @@ export class BannersController {
     if (files.image != undefined) {
       let archivoImg = {
         name: files.image[0].filename,
-        relative_path:
-          'uploads' + files.image[0].destination.split('uploads')[1],
+        relative_path: files.image[0].destination.split('client')[1],
         full_path:
-          '/uploads' +
-          files.image[0].destination.split('./uploads')[1] +
+          files.image[0].destination.split('client')[1] +
           '/' +
           files.image[0].filename,
       };
@@ -162,17 +160,16 @@ export class BannersController {
     if (files.pdf != undefined) {
       let archivoPdf = {
         name: files.pdf[0].filename,
-        relative_path: 'uploads' + files.pdf[0].destination.split('uploads')[1],
+        relative_path: files.pdf[0].destination.split('client')[1],
         full_path:
-          '/uploads' +
-          files.pdf[0].destination.split('./uploads')[1] +
+          files.pdf[0].destination.split('client')[1] +
           '/' +
           files.pdf[0].filename,
       };
       let pdfSave = await this._ArchivoService.create(archivoPdf);
       _bannersDto.pdf = pdfSave['id'];
     }
-    console.log('ruta raiz ', path.basename);
+    //console.log('ruta raiz ', path.basename);
 
     _bannersDto.created_at = new dateCreate().sysdate;
     _bannersDto.updated_at = _bannersDto.created_at;

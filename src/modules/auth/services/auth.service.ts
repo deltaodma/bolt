@@ -54,6 +54,7 @@ export class AuthService {
       last_name: user.last_name,
       country: user.country,
       employee_code: user.employee_code,
+      profile: !user.profile ? 'user' : user.profile,
     };
     return {
       user: payload,

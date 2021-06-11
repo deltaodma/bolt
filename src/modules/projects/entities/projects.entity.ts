@@ -10,9 +10,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  TreeChildren,
 } from 'typeorm';
 
 import { Submenu } from './../../submenus/entities/submenu.entity';
+import { ProjectRole } from './../../projectroles/entities/projectroles.entity';
 
 @Entity('projects')
 export class Project {

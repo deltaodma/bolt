@@ -15,7 +15,7 @@ import {
 
 import { Role } from './../../roles/entities/roles.entity';
 import { Project } from './../../projects/entities/projects.entity';
-import { ProjectRoleSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
+import { ProjectRolSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
 @Entity('project_roles')
 export class ProjectRole {
   @PrimaryGeneratedColumn('uuid')
@@ -45,10 +45,10 @@ export class ProjectRole {
   @OneToOne(() => Project)
   @JoinColumn({ name: 'project_id' })
   project: Project;
-
+*/
   @OneToMany(
-    (type) => ProjectRoleSubmenu,
+    (type) => ProjectRolSubmenu,
     (projectRole) => projectRole.project_rol,
   )
-  rolesSubmenu: ProjectRoleSubmenu[]; */
+  rolesSubmenu: ProjectRolSubmenu[];
 }

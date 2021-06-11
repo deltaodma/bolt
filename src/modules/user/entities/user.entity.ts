@@ -41,6 +41,9 @@ export class User {
   status: number;
 
   @Column()
+  profile: number;
+
+  @Column()
   created_by: string;
 
   @Column()

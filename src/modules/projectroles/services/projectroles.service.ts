@@ -11,7 +11,7 @@ import { switchMap, map, tap, catchError } from 'rxjs/operators';
 
 import { projectroleDto } from '../dto/projectrole.dto';
 import { ProjectRole } from '../entities/projectroles.entity';
-import { ProjectRoleSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
+import { ProjectRolSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
 
 import {
   paginate,
@@ -25,8 +25,8 @@ export class ProjectRoleService {
   constructor(
     @InjectRepository(ProjectRole)
     private _projectRoleRespository: Repository<ProjectRole>,
-    @InjectRepository(ProjectRoleSubmenu)
-    private _projectRoleSubmenuRepository: Repository<ProjectRoleSubmenu>,
+    @InjectRepository(ProjectRolSubmenu)
+    private _projectRoleSubmenuRepository: Repository<ProjectRolSubmenu>,
     @InjectRepository(RolApps)
     private _rolAppRepository: Repository<RolApps>,
     private _roleService: RolesService,

@@ -1,3 +1,4 @@
+import { SubmenuGet } from './../../modules/submenus/entities/submenuget.entity';
 import {
   Entity,
   Column,
@@ -17,7 +18,7 @@ import { Submenu } from './../../modules/submenus/entities/submenu.entity';
 import { ProjectRole } from './../../modules/projectroles/entities/projectroles.entity';
 
 @Entity('roles_submenus')
-export class ProjectRoleSubmenu {
+export class ProjectRolSubmenu {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -41,10 +42,14 @@ export class ProjectRoleSubmenu {
   @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at?: Date;
 
-  /*@ManyToOne(() => ProjectRole)
+  @ManyToOne(() => ProjectRole)
   @JoinColumn({ name: 'projectrol_id' })
   project_rol: ProjectRole;
 
+  @OneToOne(() => SubmenuGet)
+  @JoinColumn({ name: 'id' })
+  submenus: SubmenuGet;
+  /*
   @ManyToOne(() => Submenu)
   @JoinColumn({ name: 'project_id' })
   project: Submenu;

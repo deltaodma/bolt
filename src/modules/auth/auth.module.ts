@@ -1,3 +1,6 @@
+import { RolApps } from './../../global/entities/rolapps.entity';
+import { ProjectRolSubmenu } from './../../global/entities/projectrolessubmenus.entity';
+import { UserService } from './../user/services/user.service';
 import { Submenu } from './../submenus/entities/submenu.entity';
 import { Project } from './../projects/entities/projects.entity';
 import { SubmenuService } from './../submenus/services/submenu.service';
@@ -17,7 +20,13 @@ import { ProjectsService } from './../projects/services/projects.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Project, Submenu]),
+    TypeOrmModule.forFeature([
+      User,
+      Project,
+      Submenu,
+      ProjectRolSubmenu,
+      RolApps,
+    ]),
     PassportModule.register({
       defaultStrategy: 'jwt',
       property: 'user',
@@ -37,6 +46,8 @@ import { ProjectsService } from './../projects/services/projects.service';
     SessionSerializer,
     ProjectsService,
     SubmenuService,
+    UserService,
   ],
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

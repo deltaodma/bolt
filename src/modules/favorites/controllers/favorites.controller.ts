@@ -9,28 +9,20 @@ import {
   Put,
   Delete,
   HttpCode,
-  UsePipes,
-  ValidationPipe,
-  BadRequestException,
-  NotFoundException,
   Request,
-  UseInterceptors,
-  UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
-import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { get } from 'http';
-import { getManager } from 'typeorm';
 import { favoriteDto } from './../dto/favorites.dto';
 
 import { FavoriteService } from './../services/favorites.service';
 
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
-import { renameImage } from 'src/global/helpers/images.helper';
-const globalVars = dotenv.config();
 import { dateCreate } from './../../../util/dateCreate';
+import { GetUser } from './../../auth/getuser.decorator';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 @ApiTags('Favorites')
+@UseGuards(JwtAuthGuard)
 @Controller('favorites')
 @ApiBearerAuth('JWT')
 export class FavoritesController {
@@ -64,8 +56,13 @@ export class FavoritesController {
     return this._favoriteService.findOne(id);
   }
 
-  @Get('favorites/user/:id')
-  async getUserFavorites(@Param('id') id: string) {
+  @Get('user/:id')
+  async getUserFavorites(
+    @Param('id') id: string,
+    @GetUser() user,
+    @Body() body: any,
+  ) {
+    console.log('user es en controller', user);
     return await this._favoriteService.findUserFavorites(id, '');
   }
 

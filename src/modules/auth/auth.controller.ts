@@ -95,7 +95,7 @@ export class AuthController {
     const user = await this._AuthService.getUserByEmail(body.email);
     if (user) {
       let token = await this._AuthService.generateToken(user);
-      token['projects'] = await this.addProjects();
+      //token['projects'] = await this.addProjects();
       return { status: 200, msg: 'token ha sido generado', token: token };
     } else {
       return { status: 201, msg: 'token no ha sido generado' };
@@ -107,7 +107,7 @@ export class AuthController {
 
     if (user) {
       const token = await this._AuthService.generateToken(user);
-      token['projects'] = await this.addProjects();
+      //token['projects'] = await this.addProjects();
       return token;
     } else {
       const userCreate = await this._AuthService.createFromSaml(userSave);
@@ -146,5 +146,18 @@ export class AuthController {
         '?SamlReq=' +
         Buffer.from(JSON.stringify(signOn)).toString('base64'),
     );
+  }
+
+  @Get('logout')
+  logoutSaml(@Res() res: any) {
+    console.log('ingresa');
+    (Saml2Strategy as any).logout(Req, (err, request) => {
+      console.log('antes');
+      if (!err) {
+        console.log('despues medio');
+        res.redirect(request);
+      }
+      console.log('final final');
+    });
   }
 }

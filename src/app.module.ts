@@ -24,6 +24,7 @@ import { join } from 'path';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'), // <-- path to the static files
+      exclude: ['/api*', '/docs', '/uploads'],
     }),
 
     BannersModule,

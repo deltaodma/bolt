@@ -2,13 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 const passport = require('passport');
-const morgan = require('morgan');
+//const morgan = require('morgan');
 //import { Logger } from '@nest/common';
-import * as session from 'express-session';
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-import * as express from 'express';
-const path = require('path');
+//import * as session from 'express-session';
+//const cookieParser = require('cookie-parser');
+//const bodyParser = require('body-parser');
+/*import * as express from 'express';
+const path = require('path');*/
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
