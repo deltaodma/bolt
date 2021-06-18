@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "route": "/home",
-      "statusCode": 200
-    }
-  ]
-}
