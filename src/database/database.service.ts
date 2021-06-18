@@ -17,7 +17,7 @@ export const databaseProviders = [
         username: 'rl4t0ifoetjy1hwp',
         port: 3306,
         database: 'uii98fu77xic7lc8',
-        password: 'ru59gknltb3gf3ep',
+        password: 'flgusstl36xttva0',
         //entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         entities: ['dist/**/*.entity{.ts,.js}'],
         //migrations: [__dirname + '/migrations/*{.ts,.js}'],

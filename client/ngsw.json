@@ -1,0 +1,131 @@
+{
+  "configVersion": 1,
+  "timestamp": 1622564224255,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main.46776126590629da3a31.js",
+        "/manifest.webmanifest",
+        "/polyfills.70ffb02a82cc06d3b0cb.js",
+        "/runtime.7b63b9fd40098a2e8207.js",
+        "/styles.2902c7ed2771c5d4885f.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/GothamMedium.0a910c0b9d50be6aa3dc.ttf",
+        "/assets/files/TERMINOSYCONDICIONESGENERALES.pdf",
+        "/assets/fonts/Gotham-Black.otf",
+        "/assets/fonts/GothamMedium.ttf",
+        "/assets/fonts/GothamMedium_1.ttf",
+        "/assets/icon/abinbev.svg",
+        "/assets/icon/access-forbiden.svg",
+        "/assets/icon/analytics.svg",
+        "/assets/icon/arrow-alt-circle-right.svg",
+        "/assets/icon/arrow-pointer.svg",
+        "/assets/icon/bolt.svg",
+        "/assets/icon/brewTech.svg",
+        "/assets/icon/card-pattern.svg",
+        "/assets/icon/check-circle.svg",
+        "/assets/icon/close-x.svg",
+        "/assets/icon/dash-big.svg",
+        "/assets/icon/dash.svg",
+        "/assets/icon/exclamation-triangle.svg",
+        "/assets/icon/hand-sparkles.svg",
+        "/assets/icon/plus-circle.svg",
+        "/assets/icon/power-big.svg",
+        "/assets/icon/power.svg",
+        "/assets/icon/shiny-big.svg",
+        "/assets/icon/shiny.svg",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/images/empty-fav.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/GothamMedium.0a910c0b9d50be6aa3dc.ttf": "74c87f67010f63777e33c5114c76b1fc67e4ae5b",
+    "/assets/files/TERMINOSYCONDICIONESGENERALES.pdf": "2fb9d5ed63fe53be05700424b27fc190d07068f7",
+    "/assets/fonts/Gotham-Black.otf": "a3cdcc0c2ff9c6289ccc5ae1bb9eade3395626da",
+    "/assets/fonts/GothamMedium.ttf": "74c87f67010f63777e33c5114c76b1fc67e4ae5b",
+    "/assets/fonts/GothamMedium_1.ttf": "74c87f67010f63777e33c5114c76b1fc67e4ae5b",
+    "/assets/icon/abinbev.svg": "c7e05526b85725be012e6645740aebe3e2e0d966",
+    "/assets/icon/access-forbiden.svg": "040845ac8450ca3daee3c121d68dfdd30fd156dd",
+    "/assets/icon/analytics.svg": "bcd4a7129389fe0861fc5096179186e9ad14fb53",
+    "/assets/icon/arrow-alt-circle-right.svg": "18430615475ba07ee9347c7331822d9bb12429ed",
+    "/assets/icon/arrow-pointer.svg": "155946898950ebdcd236169b9e548d9e3b6bbffa",
+    "/assets/icon/bolt.svg": "4ba02684fa8b07172da6b083ddc17264530d952b",
+    "/assets/icon/brewTech.svg": "184a031888cde6a44b817d9a83d587d2be0f1549",
+    "/assets/icon/card-pattern.svg": "b66442b1b1d51907a702a93e3001d10cfe063418",
+    "/assets/icon/check-circle.svg": "331f1993017b76842b6b832866420412f51c0e27",
+    "/assets/icon/close-x.svg": "1f0eef98af25b26f59c7b4d3fba2e323bfcef443",
+    "/assets/icon/dash-big.svg": "3fc13a621dc5800a2b8719163acceaa4ccf123f4",
+    "/assets/icon/dash.svg": "4474a588475c1d272cb0d81d34d5511ca78342c5",
+    "/assets/icon/exclamation-triangle.svg": "6fdef832c2b1edd0c449de00b09cea3f86215f7c",
+    "/assets/icon/hand-sparkles.svg": "996f18857d6a118bfe5b991b87c174475abd0480",
+    "/assets/icon/plus-circle.svg": "3528953769da58d674f8b9685801e5093b0ae474",
+    "/assets/icon/power-big.svg": "d6bcd29ec4b469a85ed97e55bfe1787194f3f5aa",
+    "/assets/icon/power.svg": "a52fe1b52784d7ddca1f93efac70be44d89cf9ad",
+    "/assets/icon/shiny-big.svg": "2b7afaa120853249574dfea7b515d837d391da12",
+    "/assets/icon/shiny.svg": "c3263bb9461169ed5f2031441f2019985a8a4576",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/images/empty-fav.png": "ce7eea1ffa41f81e0ac1680669887adbacc4f753",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "a0ebb916afa488c838dba1d5fd7d22e2c74ca2b0",
+    "/main.46776126590629da3a31.js": "b95964eb032788dc0bdeb971f20ff3c42e2d40d8",
+    "/manifest.webmanifest": "e6bf593e0f966d75bc337c649b871f4b2baa4571",
+    "/polyfills.70ffb02a82cc06d3b0cb.js": "763cd3b34dfa4600ebb9d9588ec7116988e98920",
+    "/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/styles.2902c7ed2771c5d4885f.css": "e853f446e14728bebdd9d8b213d6bf57fb6c7a74"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
