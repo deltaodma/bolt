@@ -16,7 +16,7 @@ import {
 import { User } from './../../user/entities/user.entity';
 import { Project } from './../../projects/entities/projects.entity';
 import { App } from './../../apps/entities/apps.entity';
-import { ProjectRoleSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
+import { ProjectRolSubmenu } from 'src/global/entities/projectrolessubmenus.entity';
 
 @Entity('submenus')
 export class Submenu {
@@ -75,6 +75,6 @@ export class Submenu {
   apps: App[];
 
   /*
-  @OneToMany((type) => ProjectRoleSubmenu, (userRole) => userRole.submenu)
-  submenuRoles: ProjectRoleSubmenu[]; */
+  @OneToMany((type) => ProjectRolSubmenu, (userRole) => userRole.submenu)
+  submenuRoles: ProjectRolSubmenu[]; */
 }

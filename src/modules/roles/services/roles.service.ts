@@ -50,6 +50,8 @@ export class RolesService {
       'c.name_es',
       'c.name_en',
       'c.status',
+      'c.description_en',
+      'c.description_es',
       'c.deleted_at',
     ]);
     if (options.search != '') {

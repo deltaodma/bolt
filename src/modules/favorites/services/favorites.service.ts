@@ -56,6 +56,9 @@ export class FavoriteService {
         'apps.name_en name_en',
         'apps.name_es name_es',
         'types.name as name',
+        'apps.url as url',
+        'apps.username as username',
+        'apps.password as password',
       ])
       .innerJoin('c.app', 'apps')
       .innerJoin('c.user', 'users')

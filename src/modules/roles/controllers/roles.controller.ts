@@ -11,21 +11,10 @@ import {
   HttpCode,
   UsePipes,
   ValidationPipe,
-  BadRequestException,
-  NotFoundException,
   Request,
-  UseInterceptors,
-  UploadedFile,
 } from '@nestjs/common';
-import { FileInterceptor, MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { get } from 'http';
-import { getManager } from 'typeorm';
 import { rolesDto } from './../dto/roles.dto';
-
 import { RolesService } from './../services/roles.service';
-//import { LanguageService } from './../../global/services/language.service';
-
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';

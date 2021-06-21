@@ -31,6 +31,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from './../../auth/jwt-auth.guard';
 import * as dotenv from 'dotenv';
 import { renameImage } from 'src/global/helpers/images.helper';
+import { GetUser } from 'src/modules/auth/getuser.decorator';
 const globalVars = dotenv.config();
 
 @ApiTags('Projects')
@@ -101,6 +102,16 @@ export class ProjectsController {
           ? process.env.API_URL + 'projects/menu?search=' + search
           : process.env.API_URL + 'projects/menu',
     });
+  }
+
+  @Get('menubyuser')
+  menuUser(@GetUser() user) {
+    console.log('in project controller route ', user.roles);
+    const roles = user.roles.map((item) => {
+      return item.id;
+    });
+    console.log('los roles son ', roles);
+    return this._projectsService.menuByUser(user.id, roles);
   }
 
   @Get('menu/:id')

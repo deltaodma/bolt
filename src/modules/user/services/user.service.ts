@@ -36,7 +36,7 @@ export class UserService {
   findOne(id: string) {
     const project = this._userRepository.findOne(id, { relations: ['roles'] });
     if (!project) {
-      throw new NotFoundException(`Product #${id} not found`);
+      throw new NotFoundException(`User #${id} not found`);
     }
     return project;
   }
