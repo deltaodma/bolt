@@ -39,7 +39,7 @@
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
     "express-session": "^1.17.2",
-    "i": "^0.3.6",
+    "i": "^0.3.7",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "nestjs-typeorm-paginate": "^2.4.0",
